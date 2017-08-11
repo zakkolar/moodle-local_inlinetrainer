@@ -6,7 +6,6 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '.'),
         publicPath: '/src/',
-        // put this into the src folder to play nicely with Moodle's development workflow
         filename: 'amd/src/trainer.js',
         libraryTarget: "amd"
     },
@@ -79,9 +78,7 @@ if (process.env.NODE_ENV === 'production') {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
+            compress: false
         }),
         new webpack.LoaderOptionsPlugin({
             minimize: true
