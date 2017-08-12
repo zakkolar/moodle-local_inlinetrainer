@@ -2,14 +2,21 @@ import {Action} from "../Action";
 import {Category} from "../category";
 
 let lscache = require('lscache');
-lscache.setBucket('zk_inline_trainer.tabs');
 const expiration = 20;
+
+function setBucket(){
+    lscache.setBucket('zk_inline_trainer.tabs');
+}
+setBucket();
+
 export const TabSettings = {
     namespaced:true,
     state:{
       actions:lscache.get('actions') || [],
         categories:lscache.get('categories') || [],
-        tabIndex: lscache.get('tabIndex') || 0
+        tabIndex: lscache.get('tabIndex') || 0,
+        open: lscache.get('open')!=null ? lscache.get('open') : true
+
 
     },
     mutations:{
@@ -17,6 +24,7 @@ export const TabSettings = {
             if(state.actions.indexOf(action.identifier)==-1){
                 state.actions.push(action.identifier);
             }
+            setBucket();
             lscache.set('actions', state.actions, expiration);
         },
         removeAction(state, action:Action){
@@ -25,12 +33,14 @@ export const TabSettings = {
           if(index>-1){
               state.actions.splice(index, 1);
           }
+            setBucket();
           lscache.set('actions', state.actions, expiration);
         },
         addCategory(state, category:Category){
             if(state.categories.indexOf(category.identifier())==-1){
                 state.categories.push(category.identifier());
             }
+            setBucket();
             lscache.set('categories', state.categories, expiration);
         },
         removeCategory(state, category:Category){
@@ -38,11 +48,18 @@ export const TabSettings = {
             if(index>-1){
                 state.categories.splice(index, 1);
             }
+            setBucket();
             lscache.set('categories', state.categories, expiration);
         },
         setTabIndex(state, index){
             state.tabIndex = index;
+            setBucket();
             lscache.set('tabIndex', index);
+        },
+        setOpen(state, open){
+            state.open = open;
+            setBucket();
+            lscache.set('open', open, expiration);
         }
 
     },
@@ -61,6 +78,9 @@ export const TabSettings = {
         },
         setTabIndex(context, index){
             context.commit('setTabIndex', index);
+        },
+        setOpen(context, open){
+            context.commit('setOpen', open);
         }
     },
     getters:{
@@ -72,6 +92,9 @@ export const TabSettings = {
         },
         tabIndex(state){
             return state.tabIndex;
+        },
+        open(state){
+            return state.open;
         }
     }
 };
