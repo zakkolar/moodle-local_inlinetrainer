@@ -13,7 +13,10 @@ const steps = {};
 steps['course_page'] = new RouteStep({
     text: 'Navigate to course page',
     route: '/course/view.php',
-    identifier: 'course_page'
+    identifier: 'course_page',
+    help: function(){
+      ShowHint('.block_navigation');
+    }
 });
 
 steps['click_calendar'] = new RouteStep({

@@ -2,7 +2,7 @@
 
         <div>
             <div v-show="open" class="card" id="zk_inlinetrainer" class="zk_inlinetrainer">
-                <div class="card-header h6 card-inverse card-primary">
+                <div class="card-header h6 card-inverse card-primary title">
                     Inline Trainer
                     <i @click="open = !open" class="fa fa-minus minimize pull-right" aria-hidden="true"></i>
                 </div>
@@ -20,7 +20,7 @@
                     </b-tabs>
                 </div>
             </div>
-            <button id="zk_inlinetrainer_button" v-if="!open" @click="open = !open"><i class="fa fa-window-restore" aria-hidden="true"></i> Inline Trainer</button>
+            <button id="zk_inlinetrainer_button" v-if="!open" @click="open = !open"><i class="fa fa-plus" aria-hidden="true"></i> Inline Trainer</button>
         </div>
 
 
@@ -115,12 +115,16 @@
         border-color:#EEEEEE;
         border-style:solid;
         border-width:1px;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
         .minimize{
             padding:5px 10px;
             cursor:pointer;
             border-style:solid;
             border-width:1px;
             border-color:rgba(0,0,0,0.1);
+        }
+        .title{
+            cursor: move;
         }
     }
 

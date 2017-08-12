@@ -12,7 +12,7 @@
         <ol v-if="open">
             <li v-for =  "step in action.steps" v-bind:class="{'optional':step.optional,'complete':step.complete, 'futureStep':!step.complete && step!==action.currentStep}">
                 <span v-if="step.optional">Optional: </span>
-                <a v-if="step.help!=null && step===action.currentStep && !step.complete" href='#' @click="runHelp($event,step)"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                <a v-if="step.help!=null && step===action.currentStep && !step.complete" href='#' title="Show me how to complete this step" @click="runHelp($event,step)"><i class="fa fa-window-restore" aria-hidden="true"></i></a>
                 {{step.text}}
             </li>
             <li class='resetSteps' v-if="action.steps[0]!==action.currentStep">
