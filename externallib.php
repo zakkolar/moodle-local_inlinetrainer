@@ -1,7 +1,6 @@
 <?php
 require_once($CFG->libdir . "/externallib.php");
 class local_inlinetrainer_external extends external_api {
-
     public static function add_favorite_parameters() {
         return new external_function_parameters(
             array('action' => new external_value(PARAM_TEXT, 'The identifier of the action to add to favorites'))
@@ -10,17 +9,10 @@ class local_inlinetrainer_external extends external_api {
 
     public static function add_favorite($action) {
         global $USER, $DB;
-
         $params = self::validate_parameters(self::add_favorite_parameters(),
             array('action' => $action));
-
-
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-
-
-
-
 
         if(!self::favorite_exists($params['action'])){
             $favorite = new stdClass();
@@ -33,9 +25,7 @@ class local_inlinetrainer_external extends external_api {
 
             return $lastinsertid>0;
         }
-
         return false;
-
     }
 
      static function add_favorite_returns() {
@@ -92,7 +82,13 @@ class local_inlinetrainer_external extends external_api {
             'user_id'=>$USER->id
         ), 'created ASC', 'id, action');
 
-        return $favorites;
+        if($favorites != null){
+            return $favorites;
+        }
+        else{
+            return [];
+        }
+
     }
 
     static function get_favorites_returns() {
@@ -108,5 +104,80 @@ class local_inlinetrainer_external extends external_api {
             'user_id'=>$USER->id,
 
         ));
+    }
+
+    public static function set_recent_actions_parameters() {
+        return new external_function_parameters(array(
+            'actions' => new external_multiple_structure(
+                new external_value(PARAM_TEXT, 'identifier of action')
+            )));
+    }
+
+    public static function set_recent_actions($actions) {
+        global $USER, $DB;
+        $params = self::validate_parameters(self::set_recent_actions_parameters(),
+            array('actions' => $actions));
+        $context = get_context_instance(CONTEXT_USER, $USER->id);
+        self::validate_context($context);
+
+        $recent = $DB->get_record('local_inlinetrainer_recent', array(
+            'user_id'=>$USER->id,
+        ), 'id');
+
+
+        if($recent==null){
+            $recents = new stdClass();
+
+            $recents->actions = implode($params['actions'],",");
+            $recents->user_id = $USER->id;
+
+            $lastinsertid = $DB->insert_record('local_inlinetrainer_recent', $recents);
+
+            return $lastinsertid>0;
+        }
+        else{
+            return $DB->set_field('local_inlinetrainer_recent',
+                'actions',
+                implode($params['actions'],","),
+                array(
+                    'id'=>$recent->id
+                ));
+        }
+
+        return false;
+
+    }
+
+    static function set_recent_actions_returns() {
+        return new external_value(PARAM_BOOL, 'Whether the recent actions were set');
+    }
+
+    public static function get_recent_actions_parameters() {
+        return new external_function_parameters([]);
+    }
+
+    public static function get_recent_actions() {
+        global $USER, $DB;
+
+        $context = get_context_instance(CONTEXT_USER, $USER->id);
+        self::validate_context($context);
+
+        $recent = $DB->get_record('local_inlinetrainer_recent', array(
+            'user_id'=>$USER->id,
+        ), 'actions');
+
+        if($recent!=null){
+            return explode(",",$recent->actions);
+        }
+        else{
+            return [];
+        }
+
+    }
+
+    static function get_recent_actions_returns() {
+        return new external_multiple_structure(
+            new external_value(PARAM_TEXT, 'identifier of action')
+        );
     }
 }

@@ -13,6 +13,7 @@ export const init = function(ajax){
             beforeCreate(){
                 this.$store.dispatch('moodle/createQueue',ajax);
                 this.$store.dispatch('favorites/sync');
+                this.$store.dispatch('recents/sync');
             }
         })
 }

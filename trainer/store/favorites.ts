@@ -1,9 +1,7 @@
 import {Action} from "../Action";
 import {MoodleQueue} from "../sync/moodle-queue";
 import {GetAction} from "../helpers/get-action";
-function getQueue(context){
-    return context.rootGetters['moodle/queue'];
-}
+import {getQueue} from "./get-queue";
 export const Favorites = {
     namespaced:true,
     state:{

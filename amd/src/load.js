@@ -8,18 +8,15 @@ define(['jquery', 'core/ajax', 'local_inlinetrainer/trainer'],function($, ajax, 
 			document.body.appendChild(inline_trainer_element);
 
 			// var promises = ajax.call([{
-			// 	methodname: 'local_inlinetrainer_remove_favorite',
-			// 	args:{'action':'something_else'}
+			// 	methodname: 'local_inlinetrainer_get_recent_actions',
+			// 	args:{}
 			// }]);
 			// promises[0].done(function(a){
 			// 	console.log(a);
 			// }).fail(function(a, b){
 			// 	console.log(a);
-			// }).always(function(a){
-			// 	console.log("DID IT");
 			// });
-            //
-			// console.log(promises[0]);
+
 
 			trainer.init(ajax);
 		}
