@@ -41,3 +41,15 @@ let categories: Category[] = [
 ];
 
 export const CATEGORIES: Category[] = categories;
+
+let actions = {};
+
+for(let category of categories){
+    for(let subcategory of category.subCategories){
+        for(let action of subcategory.actions){
+            actions[action.identifier] = action;
+        }
+    }
+}
+
+export const ACTIONS = actions;

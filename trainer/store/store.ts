@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import {Favorites} from "./favorites";
 import {Recents} from "./recents";
 import {TabSettings} from "./tab-settings";
+import {Moodle} from "./moodle";
 
 Vue.use(Vuex);
 
@@ -14,5 +15,6 @@ export default new Vuex.Store({
         favorites:Favorites,
         recents:Recents,
         tabSettings: TabSettings,
+        moodle: Moodle
     }
 });
