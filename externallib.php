@@ -13,6 +13,7 @@ class local_inlinetrainer_external extends external_api {
             array('action' => $action));
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
+        self::validate_capability();
 
         if(!self::favorite_exists($params['action'])){
             $favorite = new stdClass();
@@ -48,6 +49,7 @@ class local_inlinetrainer_external extends external_api {
 
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
+        self::validate_capability();
 
         if(self::favorite_exists($params['action'])) {
 
@@ -77,6 +79,7 @@ class local_inlinetrainer_external extends external_api {
 
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
+        self::validate_capability();
 
         $favorites = $DB->get_records_menu('local_inlinetrainer_favorite', array(
             'user_id'=>$USER->id
@@ -99,6 +102,7 @@ class local_inlinetrainer_external extends external_api {
 
     static function favorite_exists($action){
         global $DB, $USER;
+        self::validate_capability();
         return $DB->record_exists('local_inlinetrainer_favorite', array(
             'action'=>$action,
             'user_id'=>$USER->id,
@@ -115,6 +119,7 @@ class local_inlinetrainer_external extends external_api {
 
     public static function set_recent_actions($actions) {
         global $USER, $DB;
+        self::validate_capability();
         $params = self::validate_parameters(self::set_recent_actions_parameters(),
             array('actions' => $actions));
         $context = get_context_instance(CONTEXT_USER, $USER->id);
@@ -158,7 +163,7 @@ class local_inlinetrainer_external extends external_api {
 
     public static function get_recent_actions() {
         global $USER, $DB;
-
+        self::validate_capability();
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
 
@@ -179,5 +184,10 @@ class local_inlinetrainer_external extends external_api {
         return new external_multiple_structure(
             new external_value(PARAM_TEXT, 'identifier of action')
         );
+    }
+
+    static function validate_capability(){
+        global $COURSE;
+        require_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id));
     }
 }
