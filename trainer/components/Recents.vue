@@ -2,7 +2,7 @@
     <div id="zk_inlinetrainer_recents">
         <ul class="list-unstyled">
             <li v-for="recent in recents">
-                <action :action="recent" :make-recent="false"></action>
+                <action tab="recents" :action="recent" :make-recent="false"></action>
             </li>
             <li v-if="recents.length==0">
                 <i>No recent actions yet</i>

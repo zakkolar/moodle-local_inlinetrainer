@@ -12,7 +12,7 @@ setBucket();
 export const TabSettings = {
     namespaced:true,
     state:{
-      actions:lscache.get('actions') || [],
+      actions:lscache.get('actions') || {all:[],recents:[],favorites:[]},
         categories:lscache.get('categories') || [],
         tabIndex: lscache.get('tabIndex') || 0,
         open: lscache.get('open')!=null ? lscache.get('open') : true
@@ -20,18 +20,22 @@ export const TabSettings = {
 
     },
     mutations:{
-        addAction(state, action:Action){
-            if(state.actions.indexOf(action.identifier)==-1){
-                state.actions.push(action.identifier);
+        addAction(state, params){
+            const action:Action = params.action;
+            const tab = params.tab;
+            if(state.actions[tab].indexOf(action.identifier)==-1){
+                state.actions[tab].push(action.identifier);
             }
             setBucket();
             lscache.set('actions', state.actions, expiration);
         },
-        removeAction(state, action:Action){
-          const index = state.actions.indexOf(action.identifier);
+        removeAction(state, params){
+            const action:Action = params.action;
+            const tab = params.tab;
+          const index = state.actions[tab].indexOf(action.identifier);
 
           if(index>-1){
-              state.actions.splice(index, 1);
+              state.actions[tab].splice(index, 1);
           }
             setBucket();
           lscache.set('actions', state.actions, expiration);

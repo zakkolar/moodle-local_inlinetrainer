@@ -42,14 +42,14 @@
             toggleOpen:function(e: Event){
               e.preventDefault();
                 if(this.open){
-                    this.$store.dispatch('tabSettings/removeAction',this.action);
+                    this.$store.dispatch('tabSettings/removeAction', {tab:this.tab, action:this.action});
                 }
                 else{
-                    this.$store.dispatch('tabSettings/addAction',this.action);
+                    this.$store.dispatch('tabSettings/addAction', {tab:this.tab, action:this.action});
                 }
 
               if(this.open && this.makeRecent){
-                  this.$store.dispatch('recents/add',this.action);
+                  this.$store.dispatch('recents/add', this.action);
               }
             },
             addFavorite:function(e: Event){
@@ -77,7 +77,7 @@
               return this.$store.getters['favorites/actions'].indexOf(this.action)>-1;
           },
             open:function(){
-                return this.$store.getters['tabSettings/actions'].indexOf(this.action.identifier)>-1;
+                return this.$store.getters['tabSettings/actions'][this.tab].indexOf(this.action.identifier)>-1;
             }
         },
         props:{
@@ -85,7 +85,8 @@
             "make-recent":{
                 type: Boolean,
                 default: true
-            }
+            },
+            tab: String,
         }
 
     }

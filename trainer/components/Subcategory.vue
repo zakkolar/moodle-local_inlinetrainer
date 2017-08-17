@@ -6,7 +6,7 @@
         </a>
         <ul class="subcategories" v-if="open">
             <li v-for = "action in subcategory.actions">
-                <action v-bind:action="action"></action>
+                <action tab="all" v-bind:action="action"></action>
             </li>
         </ul>
     </div>

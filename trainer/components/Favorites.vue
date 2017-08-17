@@ -2,7 +2,7 @@
     <div id="zk_inlinetrainer_favorites">
         <ul class="list-unstyled">
             <li v-for="favorite in favorites">
-                <action :action="favorite"></action>
+                <action tab="favorites" :action="favorite"></action>
             </li>
             <li v-if="favorites.length==0">
                 <i>No favorites yet</i>
