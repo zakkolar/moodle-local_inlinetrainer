@@ -190,4 +190,44 @@ class local_inlinetrainer_external extends external_api {
         global $COURSE;
         require_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id));
     }
+
+    public static function log_activity_parameters() {
+        return new external_function_parameters(
+            array(
+                'timestamp' => new external_value(PARAM_INT, 'The unix timestamp when the activity occurred'),
+                'type' => new external_value(PARAM_TEXT, 'The type of activity that occurred'),
+                'data' => new external_value(PARAM_TEXT, 'Other data to be included with the activity')
+        ));
+    }
+
+    public static function log_activity($timestamp, $type, $data) {
+        global $USER, $DB;
+        $params = self::validate_parameters(self::log_activity_parameters(),
+            array(
+                'timestamp' => $timestamp,
+                'type' => $type,
+                'data' => $data,
+            ));
+        $context = get_context_instance(CONTEXT_USER, $USER->id);
+        self::validate_context($context);
+        self::validate_capability();
+
+
+            $activity = new stdClass();
+
+            $activity->timestamp = $params['timestamp'];
+            $activity->type = $params['type'];
+        $activity->data = $params['data'];
+
+            $activity->user_id = $USER->id;
+
+            $lastinsertid = $DB->insert_record('local_inlinetrainer_activity', $activity);
+
+            return $lastinsertid>0;
+
+    }
+
+    static function log_activity_returns() {
+        return new external_value(PARAM_BOOL, 'Whether the activity was added');
+    }
 }

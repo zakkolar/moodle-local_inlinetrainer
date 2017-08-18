@@ -40,12 +40,20 @@ $functions = array(
         'description' => 'Get the recent actions for the current user',
         'type'        => 'read',
         'ajax'        => true
+    ),
+    'local_inlinetrainer_log_activity' => array(
+        'classname'   => 'local_inlinetrainer_external',
+        'methodname'  => 'log_activity',
+        'classpath'   => 'local/inlinetrainer/externallib.php',
+        'description' => 'Logs an activity performed by a user',
+        'type'        => 'write',
+        'ajax'        => true
     )
 );
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'Inline Trainer' => array(
-        'functions' => array ('local_inlinetrainer_add_favorite', 'local_inlinetrainer_remove_favorite', 'local_inlinetrainer_get_favorites', 'local_inlinetrainer_set_recent_actions', 'local_inlinetrainer_get_recent_actions'),
+        'functions' => array ('local_inlinetrainer_add_favorite', 'local_inlinetrainer_remove_favorite', 'local_inlinetrainer_get_favorites', 'local_inlinetrainer_set_recent_actions', 'local_inlinetrainer_get_recent_actions', 'local_inlinetrainer_log_activity'),
         'restrictedusers' => 0,
         'enabled'=>1,
     )
