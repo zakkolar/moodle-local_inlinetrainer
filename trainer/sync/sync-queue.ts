@@ -12,15 +12,19 @@ class QueueJob{
     }
 }
 
-export class MoodleQueue {
+export class SyncQueue {
     ajax: Function;
     jobs: QueueJob[];
     running;
 
-    constructor(ajax){
-        this.ajax = ajax;
+    constructor(){
         this.running = locks.createMutex();
         this.jobs = [];
+    }
+
+    setAjax(ajax){
+        this.ajax = ajax;
+        this.run();
     }
 
     addJob(action, args, done?){
@@ -33,7 +37,7 @@ export class MoodleQueue {
     run(){
         const queue = this;
         queue.running.lock(function(){
-            if(queue.jobs.length>0){
+            if(queue.jobs.length>0 && queue.ajax!=null){
                 const job = queue.jobs.pop();
                 const promise = queue.ajax.call([{
                     methodname: job.action,
@@ -42,6 +46,7 @@ export class MoodleQueue {
 
                 promise[0].always(function(){
                     queue.running.unlock();
+                    queue.run();
                 }).done(function(r){
                     job.done(r);
                 });

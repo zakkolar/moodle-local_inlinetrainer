@@ -3,6 +3,7 @@ import Trainer from './components/Trainer.vue'
 import BootstrapVue from 'bootstrap-vue';
 
 import store from './store/store';
+import {TrainerServerQueue} from "./sync/trainer-server-queue";
 
 export const init = function(ajax){
         Vue.use(BootstrapVue);
@@ -11,7 +12,7 @@ export const init = function(ajax){
             store,
             render: h => h(Trainer),
             beforeCreate(){
-                this.$store.dispatch('moodle/createQueue',ajax);
+                TrainerServerQueue.setAjax(ajax);
                 this.$store.dispatch('favorites/sync');
                 this.$store.dispatch('recents/sync');
             }
