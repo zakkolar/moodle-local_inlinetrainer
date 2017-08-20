@@ -27,6 +27,8 @@
     import {Step} from "../step/step";
     import Chevron from "./Chevron.vue";
     import {mapActions} from 'vuex';
+    import {LogActivity} from "../activity/log-activity";
+    import {ACTION_CLOSE, ACTION_OPEN, FAVORITE_ADD, FAVORITE_REMOVE} from "../activity/activity-type";
 
     export default {
         selector:'action',
@@ -51,14 +53,24 @@
               if(this.open && this.makeRecent){
                   this.$store.dispatch('recents/add', this.action);
               }
+            LogActivity(this.open? ACTION_OPEN : ACTION_CLOSE, {
+                action:this.action.identifier,
+                tab: this.tab
+            });
             },
             addFavorite:function(e: Event){
                 e.preventDefault();
                 this.$store.dispatch('favorites/add',this.action);
+                LogActivity(FAVORITE_ADD, {
+                    action: this.action.identifier
+                });
             },
             removeFavorite:function(e: Event){
                 e.preventDefault();
                 this.$store.dispatch('favorites/remove',this.action);
+                LogActivity(FAVORITE_REMOVE, {
+                    action: this.action.identifier
+                });
             },
             runHelp:function(e: Event, step:Step){
                 e.preventDefault();
