@@ -74,7 +74,7 @@
                     for (const action of subcategory.actions) {
                         action.importStepCompletion(RetrieveAction(action));
                         action.initSteps();
-                        SyncAction(action, 120);
+                        SyncAction(action);
                     }
                 }
             }

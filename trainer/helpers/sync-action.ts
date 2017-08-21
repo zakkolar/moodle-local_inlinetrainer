@@ -1,6 +1,6 @@
 import {Action} from '../action';
 import {LocalStorage} from "./local-storage";
-export const SyncAction = function (action: Action, expiration = 10){
+export const SyncAction = function (action: Action){
   for(let step of action.steps){
     step.subscribe(function(){
       if (step.persistent || !step.complete) {
