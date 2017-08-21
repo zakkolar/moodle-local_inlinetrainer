@@ -34,7 +34,7 @@
     import {SyncAction, RetrieveAction} from '../helpers/sync-action';
     import {LocalStorage} from "../helpers/local-storage";
     import {LogActivity} from "../activity/log-activity";
-    import {TRAINER_CLOSE, TRAINER_MOVE, TRAINER_OPEN} from "../activity/activity-type";
+    import {PAGE_LOAD, TRAINER_CLOSE, TRAINER_MOVE, TRAINER_OPEN} from "../activity/activity-type";
     export default {
         data() {
             return {
@@ -66,6 +66,9 @@
             Recents
         },
         created:function() {
+            LogActivity(PAGE_LOAD, {
+                url: window.location.href
+            });
             for (const category of this.categories) {
                 for (const subcategory of category.subCategories) {
                     for (const action of subcategory.actions) {

@@ -6,3 +6,4 @@ export const TRAINER_OPEN = 'trainer.open';
 export const TRAINER_CLOSE = 'trainer.close';
 export const TRAINER_MOVE = 'trainer.move';
 export const STEP_HELP = 'step.help';
+export const PAGE_LOAD = 'page.load';
