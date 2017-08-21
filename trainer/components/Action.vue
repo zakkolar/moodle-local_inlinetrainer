@@ -28,7 +28,7 @@
     import Chevron from "./Chevron.vue";
     import {mapActions} from 'vuex';
     import {LogActivity} from "../activity/log-activity";
-    import {ACTION_CLOSE, ACTION_OPEN, FAVORITE_ADD, FAVORITE_REMOVE} from "../activity/activity-type";
+    import {ACTION_CLOSE, ACTION_OPEN, FAVORITE_ADD, FAVORITE_REMOVE, STEP_HELP} from "../activity/activity-type";
 
     export default {
         selector:'action',
@@ -76,6 +76,11 @@
                 e.preventDefault();
                 if(step.help!=null){
                     step.help();
+                    LogActivity(STEP_HELP, {
+                       'action':this.action.identifier,
+                       'step':step.identifier,
+                        'tab':this.tab,
+                    });
                 }
             },
             resetSteps:function(e: Event){

@@ -33,6 +33,8 @@
     import Recents from './Recents.vue';
     import {SyncAction, RetrieveAction} from '../helpers/sync-action';
     import {LocalStorage} from "../helpers/local-storage";
+    import {LogActivity} from "../activity/log-activity";
+    import {TRAINER_CLOSE, TRAINER_MOVE, TRAINER_OPEN} from "../activity/activity-type";
     export default {
         data() {
             return {
@@ -54,6 +56,7 @@
               },
               set: function(val){
                   this.$store.dispatch('tabSettings/setOpen', val);
+                  LogActivity(val? TRAINER_OPEN : TRAINER_CLOSE, {});
               }
           }
         },
@@ -90,6 +93,10 @@
                     stop:function(){
                         LocalStorage.set('trainer.position.top', $(this).css('top'));
                         LocalStorage.set('trainer.position.left', $(this).css('left'));
+                        LogActivity(TRAINER_MOVE, {
+                           top:$(this).css('top'),
+                           left:$(this).css('left')
+                        });
                     }
                 });
             });
