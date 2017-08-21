@@ -32,6 +32,7 @@
     import Favorites from './Favorites.vue';
     import Recents from './Recents.vue';
     import {SyncAction, RetrieveAction} from '../helpers/sync-action';
+    import {LocalStorage} from "../helpers/local-storage";
     export default {
         data() {
             return {
@@ -73,16 +74,13 @@
             }
 
             const $ = require('jquery');
-            const lscache = require('lscache');
-            const expiraiton = 20;
-            lscache.setBucket('zk_inline_trainer.trainerPosition');
             require('jquery-ui/ui/widgets/draggable');
             let position = {};
-            if(lscache.get('left')){
-                position['left'] = lscache.get('left');
+            if(LocalStorage.get('trainer.position.left')){
+                position['left'] = LocalStorage.get('trainer.position.left');
             }
-            if(lscache.get('top')){
-                position['top'] = lscache.get('top');
+            if(LocalStorage.get('trainer.position.top')){
+                position['top'] = LocalStorage.get('trainer.position.top');
             }
 
             $(function(){
@@ -90,9 +88,8 @@
                     containment:'window',
                     scroll:false,
                     stop:function(){
-                        lscache.setBucket('zk_inline_trainer.trainerPosition');
-                        lscache.set('top', $(this).css('top'), expiraiton);
-                        lscache.set('left', $(this).css('left'), expiraiton);
+                        LocalStorage.set('trainer.position.top', $(this).css('top'));
+                        LocalStorage.set('trainer.position.left', $(this).css('left'));
                     }
                 });
             });

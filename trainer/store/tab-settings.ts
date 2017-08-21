@@ -1,23 +1,13 @@
 import {Action} from "../Action";
 import {Category} from "../category";
-
-let lscache = require('lscache');
-const expiration = 20;
-
-function setBucket(){
-    lscache.setBucket('zk_inline_trainer.tabs');
-}
-setBucket();
-
+import {LocalStorage} from "../helpers/local-storage";
 export const TabSettings = {
     namespaced:true,
     state:{
-      actions:lscache.get('actions') || {all:[],recents:[],favorites:[]},
-        categories:lscache.get('categories') || [],
-        tabIndex: lscache.get('tabIndex') || 0,
-        open: lscache.get('open')!=null ? lscache.get('open') : true
-
-
+      actions:LocalStorage.get('trainer.tabs.actions') || {all:[],recents:[],favorites:[]},
+        categories:LocalStorage.get('trainer.tabs.categories') || [],
+        tabIndex: LocalStorage.get('trainer.settings.tabIndex') || 0,
+        open: LocalStorage.get('trainer.settings.open')!=null ? LocalStorage.get('trainer.settings.open') : true
     },
     mutations:{
         addAction(state, params){
@@ -26,8 +16,7 @@ export const TabSettings = {
             if(state.actions[tab].indexOf(action.identifier)==-1){
                 state.actions[tab].push(action.identifier);
             }
-            setBucket();
-            lscache.set('actions', state.actions, expiration);
+            LocalStorage.set('trainer.tabs.actions', state.actions);
         },
         removeAction(state, params){
             const action:Action = params.action;
@@ -37,35 +26,29 @@ export const TabSettings = {
           if(index>-1){
               state.actions[tab].splice(index, 1);
           }
-            setBucket();
-          lscache.set('actions', state.actions, expiration);
+          LocalStorage.set('trainer.tabs.actions', state.actions);
         },
         addCategory(state, category:Category){
             if(state.categories.indexOf(category.identifier())==-1){
                 state.categories.push(category.identifier());
             }
-            setBucket();
-            lscache.set('categories', state.categories, expiration);
+            LocalStorage.set('trainer.tabs.categories', state.categories);
         },
         removeCategory(state, category:Category){
             const index = state.categories.indexOf(category.identifier());
             if(index>-1){
                 state.categories.splice(index, 1);
             }
-            setBucket();
-            lscache.set('categories', state.categories, expiration);
+            LocalStorage.set('trainer.tabs.categories', state.categories);
         },
         setTabIndex(state, index){
             state.tabIndex = index;
-            setBucket();
-            lscache.set('tabIndex', index);
+            LocalStorage.set('trainer.settings.tabIndex', index);
         },
         setOpen(state, open){
             state.open = open;
-            setBucket();
-            lscache.set('open', open, expiration);
+            LocalStorage.set('trainer.settings.open', open);
         }
-
     },
     actions:{
         addAction(context, action:Action) {
