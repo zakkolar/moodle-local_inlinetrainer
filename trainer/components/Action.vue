@@ -29,6 +29,7 @@
     import {mapActions} from 'vuex';
     import {LogActivity} from "../activity/log-activity";
     import {ACTION_CLOSE, ACTION_OPEN, FAVORITE_ADD, FAVORITE_REMOVE, STEP_HELP} from "../activity/activity-type";
+    import {ActionActivityWatcher} from "../activity/action-activity";
 
     export default {
         selector:'action',
@@ -42,7 +43,7 @@
         },
         methods:{
             toggleOpen:function(e: Event){
-              e.preventDefault();
+                e.preventDefault();
                 if(this.open){
                     this.$store.dispatch('tabSettings/removeAction', {tab:this.tab, action:this.action});
                 }
@@ -50,13 +51,14 @@
                     this.$store.dispatch('tabSettings/addAction', {tab:this.tab, action:this.action});
                 }
 
-              if(this.open && this.makeRecent){
+                if(this.open && this.makeRecent){
                   this.$store.dispatch('recents/add', this.action);
-              }
-            LogActivity(this.open? ACTION_OPEN : ACTION_CLOSE, {
-                action:this.action.identifier,
-                tab: this.tab
-            });
+                }
+                LogActivity(this.open? ACTION_OPEN : ACTION_CLOSE, {
+                    action:this.action.identifier,
+                    tab: this.tab
+                });
+                this.updateActivityWatcher();
             },
             addFavorite:function(e: Event){
                 e.preventDefault();
@@ -86,8 +88,20 @@
             resetSteps:function(e: Event){
                 e.preventDefault();
                 this.action.resetSteps();
+            },
+            updateActivityWatcher(){
+                if(this.open){
+                    ActionActivityWatcher.watchAction(this.action, this.tab);
+                }
+                else{
+                    ActionActivityWatcher.unwatchAction(this.action, this.tab);
+                }
             }
 
+        },
+        created(){
+            this.updateActivityWatcher();
+            ActionActivityWatcher.checkLogActionActivity(this.action);
         },
         computed:{
           favorite:function(){
