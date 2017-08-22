@@ -16,6 +16,8 @@
     import Action from './Action.vue';
     import Chevron from './Chevron.vue';
     import {Category} from "../category";
+    import {SUBCATEGORY_CLOSE, SUBCATEGORY_OPEN} from "../activity/activity-type";
+    import {LogActivity} from "../activity/log-activity";
     export default {
         selector:'subcategory',
         data() {
@@ -39,6 +41,10 @@
                 else{
                     this.$store.dispatch('tabSettings/addCategory',this.subcategory);
                 }
+
+                LogActivity(this.open? SUBCATEGORY_OPEN : SUBCATEGORY_CLOSE, {
+                    subcategory:this.subcategory.identifier(),
+                });
             }
         },
         computed:{

@@ -9,3 +9,7 @@ export const STEP_HELP = 'step.help';
 export const STEP_COMPLETE = 'step.complete';
 export const STEP_UNCOMPLETE = 'step.uncomplete';
 export const PAGE_LOAD = 'page.load';
+export const CATEGORY_OPEN = 'category.open';
+export const CATEGORY_CLOSE = 'category.close';
+export const SUBCATEGORY_OPEN = 'subcategory.open';
+export const SUBCATEGORY_CLOSE = 'subcategory.close';
