@@ -7,12 +7,12 @@ import {EventStep} from '../../../step/event-step';
 import {ShowHint} from '../../../helpers/show-hint';
 import {WatchForEvent, UnwatchForEvent} from '../../../helpers/watch-for-event';
 import {CheckText} from '../../../helpers/check-text';
-import {CoursePageStep} from "../../../shared_steps/course-page.step";
+import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
 
 
 const steps = {};
 
-steps['course_page'] = CoursePageStep;
+steps['course_page'] = CoursePageFactory();
 
 steps['syllabus_page'] = new RouteStep({
   text: 'Click "Upload Course Syllabus"',

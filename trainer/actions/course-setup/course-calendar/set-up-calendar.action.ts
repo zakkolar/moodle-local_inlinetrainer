@@ -8,13 +8,13 @@ import {ShowHint} from '../../../helpers/show-hint';
 import {CheckText} from '../../../helpers/check-text';
 import {CheckValue} from '../../../helpers/check-value';
 import {WatchForEvent, UnwatchForEvent} from '../../../helpers/watch-for-event';
-import {CoursePageStep} from "../../../shared_steps/course-page.step";
+import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
 
 const $ = require('jquery');
 
 
 const steps = {};
-steps['course_page'] = CoursePageStep;
+steps['course_page'] = CoursePageFactory();
 
 steps['editing_on']= new EventStep({
   text: 'Click "Turn editing on"',
