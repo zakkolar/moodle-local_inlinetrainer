@@ -7,17 +7,11 @@ import {ShowHint} from '../../../helpers/show-hint';
 import {CheckValue} from '../../../helpers/check-value';
 import {CheckText} from "../../../helpers/check-text";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
+import {CoursePageStep} from "../../../shared_steps/course-page.step";
 
 
 const steps = {};
-steps['course_page'] = new RouteStep({
-    text: 'Navigate to course page',
-    route: '/course/view.php',
-    identifier: 'course_page',
-    help: function(){
-      ShowHint('.block_navigation');
-    }
-});
+steps['course_page'] = CoursePageStep;
 
 steps['click_calendar'] = new RouteStep({
   text: 'Scroll to the "Calendar" block on the left side of the screen and click the name of the current month',

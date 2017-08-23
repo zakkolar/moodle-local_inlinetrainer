@@ -8,19 +8,13 @@ import {ShowHint} from '../../../helpers/show-hint';
 import {CheckText} from '../../../helpers/check-text';
 import {CheckValue} from '../../../helpers/check-value';
 import {WatchForEvent, UnwatchForEvent} from '../../../helpers/watch-for-event';
+import {CoursePageStep} from "../../../shared_steps/course-page.step";
 
 const $ = require('jquery');
 
 
 const steps = {};
-steps['course_page'] = new RouteStep({
-  text: 'Navigate to course page',
-  route: '/course/view.php',
-  identifier: 'course_page',
-    help: function(){
-        ShowHint('.block_navigation');
-    }
-});
+steps['course_page'] = CoursePageStep;
 
 steps['editing_on']= new EventStep({
   text: 'Click "Turn editing on"',

@@ -7,18 +7,12 @@ import {EventStep} from '../../../step/event-step';
 import {ShowHint} from '../../../helpers/show-hint';
 import {WatchForEvent, UnwatchForEvent} from '../../../helpers/watch-for-event';
 import {CheckText} from '../../../helpers/check-text';
+import {CoursePageStep} from "../../../shared_steps/course-page.step";
 
 
 const steps = {};
 
-steps['course_page'] = new RouteStep({
-  text: 'Navigate to course page',
-  route: '/course/view.php',
-  identifier: 'course_page',
-    help: function(){
-        ShowHint('.block_navigation');
-    }
-});
+steps['course_page'] = CoursePageStep;
 
 steps['syllabus_page'] = new RouteStep({
   text: 'Click "Upload Course Syllabus"',
