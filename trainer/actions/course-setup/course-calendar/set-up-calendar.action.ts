@@ -26,8 +26,8 @@ steps['editing_on']= new EventStep({
   uncompleteEvent: 'click',
   uncompleteTarget: '#page-header form input:submit',
 
-  checkComplete: function(){
-    return CheckValue('#page-header form input[name="edit"]', 'off');
+  checkComplete: function(resolve){
+    resolve(CheckValue('#page-header form input[name="edit"]', 'off'));
   },
   identifier: 'editing_on'
 
@@ -37,6 +37,7 @@ steps['add_block']= new Step({
   help: function(){
     ShowHint('.block_adminblock');
   },
+    identifier:'add_block',
   prerequisites:[steps['editing_on']],
   watchComplete: function(callback){
     WatchForEvent('change', '.block_adminblock select', this.id(), function(){
@@ -48,9 +49,9 @@ steps['add_block']= new Step({
   unwatchComplete: function(){
     UnwatchForEvent('change', '.block_adminblock select', this.id());
   },
-  checkComplete: function(){
+  checkComplete: function(resolve){
     const $ = require('jquery');
-    return $('.block_calendar_month').length > 0;
+    resolve($('.block_calendar_month').length > 0);
   },
   skipPrerequisitesOnInit: true
 });

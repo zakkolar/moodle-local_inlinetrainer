@@ -21,8 +21,8 @@ export class RouteStep extends Step {
             unwatchUncomplete: function(){
                 OffRouteUnload(this.id());
             },
-            checkComplete: function(){
-                return RouteLoaded(params.route, params.routeExtras || {});
+            checkComplete: function(resolve){
+                resolve(RouteLoaded(params.route, params.routeExtras || {}));
             },
         };
         const allParams = Object.assign(params, routeParams);

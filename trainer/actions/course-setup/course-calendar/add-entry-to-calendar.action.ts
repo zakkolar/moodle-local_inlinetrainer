@@ -38,8 +38,8 @@ steps['event_type'] = new EventStep({
   },
   completeEvent: 'change',
   completeTarget: '#id_eventtype',
-  checkComplete: function(){
-    return CheckValue('#id_eventtype', 'course');
+  checkComplete: function(resolve){
+    resolve(CheckValue('#id_eventtype', 'course'));
   },
   identifier: 'event_type',
 
@@ -51,8 +51,8 @@ steps['event_title'] = new EventStep({
   help: function(){
     ShowHint('#id_name');
   },
-  checkComplete: function(){
-    return CheckValue('#id_name', '', true);
+  checkComplete: function(resolve){
+    resolve(CheckValue('#id_name', '', true));
   },
   identifier: 'event_title',
 
@@ -65,9 +65,9 @@ steps['event_description'] = new EventStep({
   optional: true,
   completeEvent: 'change keyup',
   completeTarget: '#id_descriptioneditable',
-  checkComplete: function(){
+  checkComplete: function(resolve){
     const $ = require('jquery');
-    return CheckText('#id_descriptioneditable', '', true);
+    resolve(CheckText('#id_descriptioneditable', '', true));
   },
   identifier: 'event_description',
 });
@@ -76,8 +76,8 @@ steps['event_date'] = new EventStep({
   help: function(){
     ShowHint('.fdate_time_selector');
   },
-  checkComplete: function(){
-      return CheckEventHappened('#id_timestart_day', 'keyup click change');
+  checkComplete: function(resolve){
+      resolve(CheckEventHappened('#id_timestart_day', 'keyup click change'));
   },
   completeEvent: 'change keyup click',
   completeTarget: '#id_timestart_day, #id_timestart_month, #id_timestart_year, #id_timestart_hour, #id_timestart_minute',
@@ -90,9 +90,8 @@ steps['save_event'] = new RouteStep({
   },
   route: '/calendar/view.php',
   identifier: 'save_event',
-  // prerequisites: [steps['event_title'], steps['event_date']],
   routeExtras: {'parameters':[['view','day']]},
-  persistent: true
+    persistent:true
 });
 
 steps['course_page'].addPostrequisite(steps['click_calendar']);

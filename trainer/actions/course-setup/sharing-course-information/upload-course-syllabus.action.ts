@@ -30,9 +30,9 @@ steps['browse'] = new EventStep({
   prerequisites:[steps['syllabus_page']],
   completeEvent: 'change',
   completeTarget: '#syllabus',
-  checkComplete: function(){
+  checkComplete: function(resolve){
     let $ = require('jquery');
-    return ($('#syllabus').length > 0 && $('#syllabus').val() !== '');
+    resolve($('#syllabus').length > 0 && $('#syllabus').val() !== '');
   },
   identifier: 'browse'
 });
@@ -55,8 +55,8 @@ steps['upload'] = new Step({
   unwatchComplete: function(){
     UnwatchForEvent('mousedown', '#syllabus_upload', this.id());
   },
-  checkComplete: function(){
-    return uploadClicked;
+  checkComplete: function(resolve){
+    return resolve(uploadClicked);
   },
   identifier: 'upload',
   persistent: true
@@ -70,8 +70,8 @@ steps['public'] = new EventStep({
   prerequisites: [steps['upload']],
   completeEvent: 'click',
   completeTarget: '#course_syllabus_public',
-  checkComplete: function(){
-    return CheckText('#course_syllabus_public', 'Make Course Syllabus Private');
+  checkComplete: function(resolve){
+    resolve(CheckText('#course_syllabus_public', 'Make Course Syllabus Private'));
   },
   identifier: 'make_public',
   persistent: true

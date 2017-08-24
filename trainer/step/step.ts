@@ -11,7 +11,7 @@ export class Step {
     private _watchUncompleteFunction: Function;
     private _unwatchCompleteFunction: Function;
     private _unwatchUncompleteFunction: Function;
-    private _checkCompleteFunction: Function;
+    private _checkCompleteFunction;
     help: Function;
     optional: boolean;
     private _prerequisites: Step[];
@@ -39,7 +39,7 @@ export class Step {
         this._id = GUID();
         this._postrequisiteSubscriptions = new Map<string, Step>();
         this._prerequisiteSubscriptions = new Map<string, Step>();
-        this._checkCompleteFunction = params.checkComplete || function(){return false;}
+        this._checkCompleteFunction = params.checkComplete || function(resolve){resolve(false)};
         this.identifier = params.identifier;
         this.persistent = params.persistent || false;
         this._skipPrerequisitesOnInit = params.skipPrerequisitesOnInit || false;
@@ -84,12 +84,16 @@ export class Step {
 
     checkComplete(init:boolean=true){
         let step = this;
-        if(!step.prerequisitesComplete() && (!init || (init && !step._skipPrerequisitesOnInit))){
-            step.complete = false;
-        }
-        else if(step._checkCompleteFunction() || step.postrequisitesComplete()){
-            step.complete=true;
-        }
+        let checkComplete = new Promise(this._checkCompleteFunction);
+        checkComplete.then(function(complete){
+            if((!step.prerequisitesComplete() && (!init || (init && !step._skipPrerequisitesOnInit))) /*|| (!complete && !step.prerequisitesComplete())*/){
+                step.complete = false;
+            }
+            else if(complete || step.postrequisitesComplete()){
+                step.complete=true;
+            }
+        });
+
     }
 
     watchPostrequisites(){
