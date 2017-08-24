@@ -154,6 +154,7 @@ export class Step {
             }
             else{
                 this._unwatchUncompleteFunction();
+                this.watchComplete();
             }
 
             this._subscriptions.forEach((subscription: Function, key: string)=>{
