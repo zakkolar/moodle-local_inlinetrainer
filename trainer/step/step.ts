@@ -1,4 +1,5 @@
 import {GUID} from '../helpers/guid';
+const locks = require('locks');
 /**
  * @class
  * @property {string} text The human-readable text of the step.
@@ -23,6 +24,7 @@ export class Step {
     private _skipPrerequisitesOnInit: boolean;
     identifier: string;
     persistent: boolean;
+    private _completeLock;
 
     constructor(params){
         this.text = params.text || null;
@@ -43,6 +45,7 @@ export class Step {
         this.identifier = params.identifier;
         this.persistent = params.persistent || false;
         this._skipPrerequisitesOnInit = params.skipPrerequisitesOnInit || false;
+        this._completeLock = locks.createReadWriteLock();
     }
 
     /**
@@ -61,21 +64,21 @@ export class Step {
         this._postrequisites.push(step);
     }
 
-    postrequisitesComplete(){
+    async postrequisitesComplete(){
         let step = this;
         for(const postrequisite of step._postrequisites){
-            if(postrequisite.complete){
+            if(await postrequisite.isComplete()){
                 return true;
             }
         }
         return false;
     }
 
-    prerequisitesComplete(){
+    async prerequisitesComplete(){
         let step = this;
         for(let prerequisite of step._prerequisites){
 
-            if(!prerequisite.complete){
+            if(!await prerequisite.isComplete()){
                 return false;
             }
         }
@@ -84,16 +87,21 @@ export class Step {
 
     checkComplete(init:boolean=true){
         let step = this;
-        let checkComplete = new Promise(this._checkCompleteFunction);
-        checkComplete.then(function(complete){
-            if((!step.prerequisitesComplete() && (!init || (init && !step._skipPrerequisitesOnInit))) /*|| (!complete && !step.prerequisitesComplete())*/){
-                step.complete = false;
-            }
-            else if(complete || step.postrequisitesComplete()){
-                step.complete=true;
-            }
-        });
 
+        this._completeLock.writeLock(()=>{
+            let checkComplete = new Promise(step._checkCompleteFunction);
+            checkComplete.then(async (complete)=>{
+                let prerequisitesComplete = await step.prerequisitesComplete();
+
+                if((!prerequisitesComplete && (!init || (init && !step._skipPrerequisitesOnInit))) /*|| (!complete && !step.prerequisitesComplete())*/){
+                    step.complete = false;
+                }
+                else if(complete || await step.postrequisitesComplete()){
+                    step.complete=true;
+                }
+                step._completeLock.unlock();
+            });
+        });
     }
 
     watchPostrequisites(){
@@ -124,8 +132,8 @@ export class Step {
 
     watchUncomplete() {
         let step = this;
-        step._watchUncompleteFunction(function(){
-            if(!step.postrequisitesComplete()){
+        step._watchUncompleteFunction(async function(){
+            if(! await step.postrequisitesComplete()){
                 step.complete = false;
             }
         })
@@ -137,6 +145,16 @@ export class Step {
         step.watchPrerequisites();
         step.watchComplete();
         step.checkComplete(true);
+    }
+
+    isComplete(){
+        let step = this;
+        return new Promise(function(resolve){
+            step._completeLock.readLock(function(){
+                resolve(step.complete);
+                step._completeLock.unlock();
+            })
+        });
     }
 
     get complete(){

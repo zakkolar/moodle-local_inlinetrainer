@@ -4,14 +4,19 @@ import {LocalStorage} from "../helpers/local-storage";
 import {LogActivity} from "./log-activity";
 import {STEP_COMPLETE, STEP_UNCOMPLETE} from "./activity-type";
 
+const locks = require('locks');
+
 class ActionActivity{
     actions:{};
 
     stepCompletion:{};
 
+    locks:{};
+
     constructor(){
         this.actions = {};
         this.stepCompletion = LocalStorage.get('action.activity.stepCompletion') || {};
+        this.locks = {};
     }
 
     watchAction(action:Action, tab){
@@ -19,7 +24,8 @@ class ActionActivity{
             this.actions[action.identifier] = {
                 tabs:[tab],
                 watcherSet:false,
-                subscriptions: {}
+                subscriptions: {},
+                mutex: locks.createMutex()
             }
         }
         else{
@@ -56,17 +62,25 @@ class ActionActivity{
 
     checkLogStepActivity(action:Action, step:Step){
         if(this.actionWatched(action)){
-            const storedCompletion = this.stepCompletion[step.identifier];
-            if((storedCompletion && !step.complete) || (!storedCompletion && step.complete)){
-                LogActivity(step.complete? STEP_COMPLETE:STEP_UNCOMPLETE, {
-                   action:action.identifier,
-                   step:step.identifier
-                });
-                this.stepCompletion[step.identifier] = step.complete;
-                this.storeStepCompletion();
+            if(!this.locks.hasOwnProperty(this.getStepKey(action, step))){
+                this.locks[this.getStepKey(action, step)] = locks.createMutex();
             }
-        }
+            const mutex = this.locks[this.getStepKey(action, step)];
+            mutex.lock(async () => {
+                const storedCompletion = this.stepCompletion[this.getStepKey(action, step)];
+                let complete = await step.isComplete();
+                if((storedCompletion && !complete) || (!storedCompletion && complete)){
+                    LogActivity(complete? STEP_COMPLETE:STEP_UNCOMPLETE, {
+                        action:action.identifier,
+                        step:step.identifier
+                    });
+                    this.stepCompletion[this.getStepKey(action, step)] = complete;
+                    this.storeStepCompletion();
+                }
+                mutex.unlock();
+            });
 
+        }
     }
 
     checkLogActionActivity(action:Action){
@@ -104,6 +118,10 @@ class ActionActivity{
 
     storeStepCompletion(){
         LocalStorage.set('action.activity.stepCompletion', this.stepCompletion);
+    }
+
+    getStepKey(action: Action, step:Step){
+        return action.identifier + "." + step.identifier;
     }
 }
 

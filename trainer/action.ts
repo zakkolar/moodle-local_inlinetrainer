@@ -1,4 +1,5 @@
 import {Step} from './step/step';
+
 export class Action {
     name: string;
     favorite: boolean;
@@ -34,10 +35,10 @@ export class Action {
         }
     }
 
-    exportStepCompletion() {
+    async exportStepCompletion() {
         const data = {};
         for (const step of this.steps){
-            data[step.identifier] = step.complete;
+            data[step.identifier] = await step.isComplete();
         }
         return data;
     }
@@ -49,10 +50,10 @@ export class Action {
         }
     }
 
-    initCurrentStep() {
+    async initCurrentStep() {
         const reversedSteps = this.steps.slice().reverse();
         for (const index in reversedSteps){
-            if (reversedSteps[index].complete){
+            if (await reversedSteps[index].isComplete()){
                 if (parseInt(index) > 0) {
                     this.setCurrentStep(reversedSteps[parseInt(index) - 1]);
                     break;
@@ -82,9 +83,11 @@ export class Action {
             const action = this;
             this.currentStep = this.steps[index];
             this.currentStepSubscription = this.currentStep.subscribe(function(){
-                if (action.currentStep.complete){
-                    action.incrementStep();
-                }
+                action.currentStep.isComplete().then(function(complete){
+                    if (complete){
+                        action.incrementStep();
+                    }
+                });
             });
             this.currentStep.watchComplete();
         }
@@ -92,9 +95,12 @@ export class Action {
             const action = this;
             this.previousStep = this.steps[index - 1];
             this.previousStepSubscription = this.previousStep.subscribe(function(){
-                if (!action.previousStep.complete) {
-                    action.decrementStep();
-                }
+                action.previousStep.isComplete().then(function(complete){
+                    if (!complete) {
+                        action.decrementStep();
+                    }
+                });
+
             });
         } else {
             this.previousStep = null;
@@ -105,29 +111,47 @@ export class Action {
 
     markComplete() {
         this.complete = true;
-        this.currentStep = null;
-        if (this.currentStepSubscription != null) {
-            this.currentStep.unsubscribe(this.currentStepSubscription);
-        }
     }
 
-    incrementStep() {
-        let nextStepIndex = this.currentStepIndex() + 1;
-        while (nextStepIndex < this.steps.length && this.steps[nextStepIndex].complete) {
+    markUncomplete(){
+        this.complete = false;
+    }
+
+    async incrementStep() {
+        let nextStepIndex = this.currentStepIndex();
+        let complete;
+        do{
             nextStepIndex++;
+            if(nextStepIndex < this.steps.length){
+                complete = await this.steps[nextStepIndex].isComplete();
+            }
         }
-        if (nextStepIndex > this.steps.length) {
+        while (nextStepIndex < this.steps.length && complete);
+
+        if (nextStepIndex >= this.steps.length) {
             this.markComplete();
         } else {
+            this.markUncomplete();
             this.setCurrentStep(this.steps[nextStepIndex]);
         }
     }
 
-    decrementStep() {
-        const previousStepIndex = this.currentStepIndex() - 1;
-        if (previousStepIndex >= 0) {
+    async decrementStep() {
+        let previousStepIndex = this.currentStepIndex();
+        let complete;
+        do{
+            previousStepIndex--;
+            if(previousStepIndex>=0){
+                complete = await this.steps[previousStepIndex].isComplete();
+            }
+        } while (previousStepIndex>=0 && !complete);
+
+        previousStepIndex++;
+
+        if(previousStepIndex<this.steps.length){
             this.setCurrentStep(this.steps[previousStepIndex]);
         }
+
 
     }
 
