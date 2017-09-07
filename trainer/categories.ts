@@ -4,6 +4,7 @@ import {UploadCourseSyllabusAction} from './actions/course-setup/sharing-course-
 import {AddEntryToCalendarAction} from "./actions/course-setup/course-calendar/add-entry-to-calendar.action";
 import {SetUpCalendarAction} from "./actions/course-setup/course-calendar/set-up-calendar.action";
 import {Action} from "./action";
+import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -15,8 +16,10 @@ let categories: Category[] = [
                 SetUpCalendarAction,
                 AddEntryToCalendarAction
             ]),
-            new Category('Manage users'),
-            new Category('Old courses'),
+            new Category('Manage Users').addActions([
+                AddUsersAction,
+            ]),
+            new Category('Old Courses'),
         ]),
     new Category('Uploading and Organizing Course Materials', "Upload and organize lectures, documents, media files, and other materials for your course.")
         .addSubcategories([
