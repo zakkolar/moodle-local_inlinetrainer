@@ -11,7 +11,8 @@ export const WatchForEvent = function(eventString: string, target: string, id: s
     setTimeout(function () {
       $(target).on(makeEventString(event, id), function (e) {
         MarkElement(target, event, 'true');
-        callback();
+        // e.preventDefault();
+        callback(e);
       });
     }, 100);
   }

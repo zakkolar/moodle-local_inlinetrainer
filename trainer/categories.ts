@@ -5,6 +5,7 @@ import {AddEntryToCalendarAction} from "./actions/course-setup/course-calendar/a
 import {SetUpCalendarAction} from "./actions/course-setup/course-calendar/set-up-calendar.action";
 import {Action} from "./action";
 import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
+import {CreateAssignmentAction} from "./actions/student-work-assessment/individual-assignments/create-assignment.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -31,7 +32,9 @@ let categories: Category[] = [
     new Category('Student Work and Assessment', 'Create, edit and grade assignments; manage gradebook.')
         .addSubcategories([
             new Category('Group assignments'),
-            new Category('Individual assignments'),
+            new Category('Individual assignments').addActions([
+                CreateAssignmentAction
+            ]),
             new Category('Assignment feedback'),
             new Category('Self assessment'),
             new Category('Gradebook'),

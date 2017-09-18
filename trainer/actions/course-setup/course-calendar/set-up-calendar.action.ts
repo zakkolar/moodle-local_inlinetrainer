@@ -9,6 +9,7 @@ import {CheckText} from '../../../helpers/check-text';
 import {CheckValue} from '../../../helpers/check-value';
 import {WatchForEvent, UnwatchForEvent} from '../../../helpers/watch-for-event';
 import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
+import {EditingOnFactory} from "../../../shared_steps/editing-on.factory";
 
 const $ = require('jquery');
 
@@ -16,22 +17,8 @@ const $ = require('jquery');
 const steps = {};
 steps['course_page'] = CoursePageFactory();
 
-steps['editing_on']= new EventStep({
-  text: 'Click "Turn editing on"',
-  help: function(){
-    ShowHint('#page-header form input:submit');
-  },
-  completeEvent: 'click',
-  completeTarget: '#page-header form input:submit',
-  uncompleteEvent: 'click',
-  uncompleteTarget: '#page-header form input:submit',
+steps['editing_on']= EditingOnFactory();
 
-  checkComplete: function(resolve){
-    resolve(CheckValue('#page-header form input[name="edit"]', 'off'));
-  },
-  identifier: 'editing_on'
-
-});
 steps['add_block']= new Step({
   text: 'Scroll to the "Add a Block" block on the left side of the screen and select "Calendar" from the dropdown menu',
   help: function(){
