@@ -78,10 +78,11 @@ if (process.env.NODE_ENV === 'production') {
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
-            compress: false
+            compress: false,
+            mangle: false
         }),
         new webpack.LoaderOptionsPlugin({
-            minimize: true
+            minimize: false
         }),
         // tell jshint to ignore the compiled file to play nicely with Moodle's build process
         new webpack.BannerPlugin({
