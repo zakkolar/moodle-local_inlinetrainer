@@ -8,9 +8,9 @@ export class FillTextareaStep extends EventStep {
     constructor(params) {
         const eventParams = {
             completeEvent: 'change keyup',
-            completeTarget: params.field,
+            completeTarget: params.target,
             checkComplete:function(resolve){
-                resolve(CheckText(params.field, '', true));
+                resolve(CheckText(params.target, '', true));
             },
         };
         const allParams = Object.assign(params, eventParams);

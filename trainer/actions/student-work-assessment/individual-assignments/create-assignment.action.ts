@@ -68,7 +68,7 @@ steps['add_button'] = new RouteStep({
 
 steps['assignment_name'] = new FillTextInputStep({
    text: 'Type your assignment\'s name in "Assignment Name"',
-    field:'#id_name',
+    target:'#id_name',
 
     help:function(){
        ShowHint('#id_name');
@@ -78,7 +78,7 @@ steps['assignment_name'] = new FillTextInputStep({
 
 steps['assignment_description'] = new FillTextareaStep({
    text: 'Type your assignment\'s description in "Description"',
-    field:'#id_introeditoreditable',
+    target:'#id_introeditoreditable',
     help:function(){
        ShowHint('.editor_atto_wrap');
     },
@@ -88,7 +88,7 @@ steps['assignment_description'] = new FillTextareaStep({
 
 steps['allow_submissions_from'] = new FillMoodleDateTimeStep({
    text: 'Set the date to start allowing submissions',
-    fieldBase:'#id_allowsubmissionsfromdate',
+    targetBase:'#id_allowsubmissionsfromdate',
     help:function(){
        ShowHint('.fdate_time_selector:eq(0)');
     },
@@ -97,7 +97,7 @@ steps['allow_submissions_from'] = new FillMoodleDateTimeStep({
 });
 steps['due_date'] = new FillMoodleDateTimeStep({
    text: 'Set the due date for the assignment',
-    fieldBase:'#id_duedate',
+    targetBase:'#id_duedate',
     help:function(){
        ShowHint('.fdate_time_selector:eq(1)');
     },

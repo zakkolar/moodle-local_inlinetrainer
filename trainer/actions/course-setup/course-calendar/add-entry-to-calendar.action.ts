@@ -8,6 +8,9 @@ import {CheckValue} from '../../../helpers/check-value';
 import {CheckText} from "../../../helpers/check-text";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
 import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
+import {FillTextInputStep} from "../../../step/fill-text-input-step";
+import {FillTextareaStep} from "../../../step/fill-textarea-step";
+import {FillMoodleDateTimeStep} from "../../../step/fill-moodle-date-time-step";
 
 
 const steps = {};
@@ -44,43 +47,30 @@ steps['event_type'] = new EventStep({
   identifier: 'event_type',
 
 });
-steps['event_title'] = new EventStep({
+steps['event_title'] = new FillTextInputStep({
   text: 'Type your event\'s title in "Event Title"',
-  completeEvent: 'change keyup',
-  completeTarget: '#id_name',
+  target: '#id_name',
   help: function(){
     ShowHint('#id_name');
-  },
-  checkComplete: function(resolve){
-    resolve(CheckValue('#id_name', '', true));
   },
   identifier: 'event_title',
 
 });
-steps['event_description'] = new EventStep({
+steps['event_description'] = new FillTextareaStep({
   text: 'Type your event\'s description in "Description"',
   help: function(){
     ShowHint('.editor_atto');
   },
   optional: true,
-  completeEvent: 'change keyup',
-  completeTarget: '#id_descriptioneditable',
-  checkComplete: function(resolve){
-    const $ = require('jquery');
-    resolve(CheckText('#id_descriptioneditable', '', true));
-  },
+  target: '#id_descriptioneditable',
   identifier: 'event_description',
 });
-steps['event_date'] = new EventStep({
+steps['event_date'] = new FillMoodleDateTimeStep({
   text: 'Type your event\'s date and time in "Date"',
   help: function(){
     ShowHint('.fdate_time_selector');
   },
-  checkComplete: function(resolve){
-      resolve(CheckEventHappened('#id_timestart_day', 'keyup click change'));
-  },
-  completeEvent: 'change keyup click',
-  completeTarget: '#id_timestart_day, #id_timestart_month, #id_timestart_year, #id_timestart_hour, #id_timestart_minute',
+  targetBase: '#id_timestart',
   identifier: 'event_date',
 });
 steps['save_event'] = new RouteStep({
