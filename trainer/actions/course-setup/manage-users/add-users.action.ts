@@ -32,17 +32,17 @@ steps['open_course_administration'] = new EventStep({
 steps['open_users'] = new EventStep({
     text: 'Open the "Users" submenu under "Course Administration" on the left side of the screen',
     help: function(){
-        ShowHint('#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown:nth-of-type(3)');
+        ShowHint('#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown.contains_branch');
     },
     checkComplete: function(resolve){
         setTimeout(function(){
-            resolve(CheckAttribute('#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown:nth-of-type(3)>p', 'aria-expanded','true'))
+            resolve(CheckAttribute('#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown.contains_branch>p', 'aria-expanded','true'))
         },10);
     },
     completeEvent: 'click',
-    completeTarget: '#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown:nth-of-type(3)>p',
+    completeTarget: '#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown.contains_branch>p',
     uncompleteEvent: 'click',
-    uncompleteTarget: '#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown:nth-of-type(3)>p',
+    uncompleteTarget: '#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown.contains_branch>p',
     identifier: 'open_users',
     prerequisites:[steps['open_course_administration']],
 });
