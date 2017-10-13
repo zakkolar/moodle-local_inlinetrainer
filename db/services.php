@@ -48,12 +48,20 @@ $functions = array(
         'description' => 'Logs an activity performed by a user',
         'type'        => 'write',
         'ajax'        => true
+    ),
+    'local_inlinetrainer_set_consent' => array(
+        'classname'   => 'local_inlinetrainer_external',
+        'methodname'  => 'set_consent',
+        'classpath'   => 'local/inlinetrainer/externallib.php',
+        'description' => 'Stores whether the user consents to be part of the study',
+        'type'        => 'write',
+        'ajax'        => true
     )
 );
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
     'Inline Trainer' => array(
-        'functions' => array ('local_inlinetrainer_add_favorite', 'local_inlinetrainer_remove_favorite', 'local_inlinetrainer_get_favorites', 'local_inlinetrainer_set_recent_actions', 'local_inlinetrainer_get_recent_actions', 'local_inlinetrainer_log_activity'),
+        'functions' => array ('local_inlinetrainer_add_favorite', 'local_inlinetrainer_remove_favorite', 'local_inlinetrainer_get_favorites', 'local_inlinetrainer_set_recent_actions', 'local_inlinetrainer_get_recent_actions', 'local_inlinetrainer_log_activity', 'local_inlinetrainer_set_consent'),
         'restrictedusers' => 0,
         'enabled'=>1,
     )

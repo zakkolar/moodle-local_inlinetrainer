@@ -3,9 +3,14 @@
 
 
 function local_inlinetrainer_extend_navigation(global_navigation $navigation) {
-	global $PAGE, $COURSE, $trainer_menu_node;
+	global $PAGE, $COURSE, $trainer_menu_node, $DB, $USER;
+
+    $user_prefs = $DB->get_field('local_inlinetrainer_users', 'preferences', array(
+        'user_id'=>$USER->id
+    ));
+
 	if(has_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id)) && core_useragent::get_user_device_type()=='default') {
-        $PAGE->requires->js_call_amd('local_inlinetrainer/load', 'init');
+        $PAGE->requires->js_call_amd('local_inlinetrainer/load', 'init', [json_decode($user_prefs)]);
     }
 
 

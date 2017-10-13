@@ -7,17 +7,20 @@
                     <i @click="open = !open" class="fa fa-minus minimize pull-right" aria-hidden="true"></i>
                 </div>
                 <div class="card-block" style="height: calc(100% - 65px);">
-                    <b-tabs ref="tabs" v-model="tabIndex">
-                        <b-tab title="All">
-                            <all-actions></all-actions>
-                        </b-tab>
-                        <b-tab title="Favorites">
-                            <favorites></favorites>
-                        </b-tab>
-                        <b-tab title="Recents">
-                            <recents></recents>
-                        </b-tab>
-                    </b-tabs>
+                    <div v-show="!ask">
+                        <b-tabs ref="tabs" v-model="tabIndex">
+                            <b-tab title="All">
+                                <all-actions></all-actions>
+                            </b-tab>
+                            <b-tab title="Favorites">
+                                <favorites></favorites>
+                            </b-tab>
+                            <b-tab title="Recents">
+                                <recents></recents>
+                            </b-tab>
+                        </b-tabs>
+                    </div>
+                    <consent v-show="ask"></consent>
                 </div>
             </div>
             <button id="zk_inlinetrainer_button" v-if="!open" @click="open = !open"><i class="fa fa-plus" aria-hidden="true"></i> Inline Trainer</button>
@@ -31,6 +34,7 @@
     import AllActions from './AllActions.vue';
     import Favorites from './Favorites.vue';
     import Recents from './Recents.vue';
+    import Consent from './Consent.vue';
     import {SyncAction, RetrieveAction} from '../helpers/sync-action';
     import {LocalStorage} from "../helpers/local-storage";
     import {LogActivity} from "../activity/log-activity";
@@ -58,12 +62,16 @@
                   this.$store.dispatch('tabSettings/setOpen', val);
                   LogActivity(val? TRAINER_OPEN : TRAINER_CLOSE, {});
               }
+          },
+        ask() {
+              return this.$store.getters['userSettings/ask'];
           }
         },
         components:{
             AllActions,
             Favorites,
-            Recents
+            Recents,
+            Consent
         },
         created:function() {
             LogActivity(PAGE_LOAD, {
