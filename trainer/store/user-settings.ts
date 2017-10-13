@@ -1,6 +1,5 @@
 import {TrainerServerQueue} from "../sync/trainer-server-queue";
 import {LogActivity} from "../activity/log-activity";
-import {CONSENT_AGREE} from "../activity/activity-type";
 
 export const UserSettings = {
     namespaced:true,

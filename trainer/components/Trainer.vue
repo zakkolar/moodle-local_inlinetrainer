@@ -7,19 +7,17 @@
                     <i @click="open = !open" class="fa fa-minus minimize pull-right" aria-hidden="true"></i>
                 </div>
                 <div class="card-block" style="height: calc(100% - 65px);">
-                    <div v-show="!ask">
-                        <b-tabs ref="tabs" v-model="tabIndex">
-                            <b-tab title="All">
-                                <all-actions></all-actions>
-                            </b-tab>
-                            <b-tab title="Favorites">
-                                <favorites></favorites>
-                            </b-tab>
-                            <b-tab title="Recents">
-                                <recents></recents>
-                            </b-tab>
-                        </b-tabs>
-                    </div>
+                    <b-tabs ref="tabs" v-model="tabIndex" v-show="!ask">
+                        <b-tab title="All">
+                            <all-actions></all-actions>
+                        </b-tab>
+                        <b-tab title="Favorites">
+                            <favorites></favorites>
+                        </b-tab>
+                        <b-tab title="Recents">
+                            <recents></recents>
+                        </b-tab>
+                    </b-tabs>
                     <consent v-show="ask"></consent>
                 </div>
             </div>
