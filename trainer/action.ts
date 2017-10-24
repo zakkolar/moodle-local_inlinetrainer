@@ -53,7 +53,8 @@ export class Action {
     async initCurrentStep() {
         const reversedSteps = this.steps.slice().reverse();
         for (const index in reversedSteps){
-            if (await reversedSteps[index].isComplete()){
+            let complete = await reversedSteps[index].isComplete();
+            if (complete){
                 if (parseInt(index) > 0) {
                     this.setCurrentStep(reversedSteps[parseInt(index) - 1]);
                     break;

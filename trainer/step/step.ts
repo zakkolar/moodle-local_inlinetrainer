@@ -77,7 +77,6 @@ export class Step {
     async prerequisitesComplete(){
         let step = this;
         for(let prerequisite of step._prerequisites){
-
             if(!await prerequisite.isComplete()){
                 return false;
             }
@@ -88,15 +87,18 @@ export class Step {
     checkComplete(init:boolean=true){
         let step = this;
 
-        this._completeLock.writeLock(()=>{
             let checkComplete = new Promise(step._checkCompleteFunction);
             checkComplete.then(async (complete)=>{
                 let prerequisitesComplete = await step.prerequisitesComplete();
 
+                let postrequisitesComplete = await step.postrequisitesComplete();
+
+                this._completeLock.writeLock(()=>{
+
                 if((!prerequisitesComplete && (!init || (init && !step._skipPrerequisitesOnInit))) /*|| (!complete && !step.prerequisitesComplete())*/){
                     step.complete = false;
                 }
-                else if(complete || await step.postrequisitesComplete()){
+                else if(complete || postrequisitesComplete){
                     step.complete=true;
                 }
                 step._completeLock.unlock();
