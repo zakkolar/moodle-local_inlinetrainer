@@ -5,7 +5,6 @@ import {EventStep} from "../../../step/event-step";
 import {ShowHint} from "../../../helpers/show-hint";
 import {CheckAttribute} from "../../../helpers/check-attribute";
 import {RouteStep} from "../../../step/route-step";
-import {Step} from "../../../step/step";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
 
 
@@ -32,7 +31,7 @@ steps['open_course_administration'] = new EventStep({
 steps['open_users'] = new EventStep({
     text: 'Open the "Users" submenu under "Course Administration" on the left side of the screen',
     help: function(){
-        ShowHint('#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown.contains_branch');
+        ShowHint('#settingsnav>ul>.type_course.contains_branch>ul>li.type_unknown.contains_branch>p');
     },
     checkComplete: function(resolve){
         setTimeout(function(){
@@ -67,7 +66,8 @@ steps['enroll_users_popup'] = new EventStep({
     checkComplete:function(resolve){
         setTimeout(function(){
             const $ = require('jquery');
-            const complete = $('.user-enroller-panel').length>0 && $('.user-enroller-panel').css('display')==='block';
+            const panel = $('.user-enroller-panel');
+            const complete = panel.length>0 && panel.css('display').toString() === 'block';
             resolve(complete);
         }, 10)
     },
@@ -130,7 +130,8 @@ steps['finish_enrolling_users'] =  new EventStep({
     checkComplete: function(resolve){
         setTimeout(function(){
             const $ = require('jquery');
-            const complete = $('.user-enroller-panel').length==0 || $('.user-enroller-panel').css('display')==='none';
+            const panel = $('.user-enroller-panel');
+            const complete = panel.length==0 || panel.css('display').toString() === 'none';
             resolve(complete);
         }, 10)
     },

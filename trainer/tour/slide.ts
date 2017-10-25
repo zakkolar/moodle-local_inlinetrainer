@@ -1,5 +1,4 @@
 export const SLIDE = function(selector, complete?){
-
 	if(!complete){
 		complete = function(){};
 	}
@@ -20,13 +19,15 @@ export const SLIDE = function(selector, complete?){
 
 	if(elTop<windowTop || elTop>windowBottom){
 
+
 		var padding = ($(window).height()-el.height())/2;
 
 		targetScroll = elTop - padding;
 
 	}
 
-	$('body').animate({scrollTop:targetScroll}, function(){
+
+	$('html').animate({scrollTop:targetScroll}, function(){
 		complete();
 	});
 
