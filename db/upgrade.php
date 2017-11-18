@@ -26,6 +26,38 @@ function xmldb_local_inlinetrainer_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2017041823, 'local', 'inlinetrainer');
     }
 
+    if ($oldversion < 2017111802) {
+
+        // Define field preferences to be dropped from local_inlinetrainer_users.
+        $table = new xmldb_table('local_inlinetrainer_users');
+        $field = new xmldb_field('preferences');
+
+        // Conditionally launch drop field preferences.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Inlinetrainer savepoint reached.
+        upgrade_plugin_savepoint(true, 2017111802, 'local', 'inlinetrainer');
+    }
+
+    if ($oldversion < 2017111802) {
+
+        // Define field consent to be added to local_inlinetrainer_users.
+        $table = new xmldb_table('local_inlinetrainer_users');
+        $field = new xmldb_field('consent', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'user_id');
+
+        // Conditionally launch add field consent.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Inlinetrainer savepoint reached.
+        upgrade_plugin_savepoint(true, 2017111802, 'local', 'inlinetrainer');
+    }
+
+
+
     return true;
 }
 

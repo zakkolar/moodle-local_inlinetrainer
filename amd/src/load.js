@@ -8,6 +8,8 @@ define(['jquery', 'core/ajax', 'local_inlinetrainer/trainer'],function($, ajax, 
 			document.body.appendChild(inline_trainer_element);
 
 
+			console.log(user_prefs);
+
 			trainer.init(ajax, user_prefs);
 		}
 	};

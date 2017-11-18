@@ -52,7 +52,7 @@ class local_inlinetrainer_external extends external_api {
         if(!self::preferences_set()){
             $user_data = new stdClass();
 
-            $user_data->preferences = json_encode(['researchConsent'=>$consent]);
+            $user_data->consent = $consent? 1 : 0;
             $user_data->user_id = $USER->id;
 
             $lastinsertid = $DB->insert_record('local_inlinetrainer_users', $user_data);
@@ -257,12 +257,13 @@ class local_inlinetrainer_external extends external_api {
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
         self::validate_capability();
+        $consent = $DB->get_field('local_inlinetrainer_users', 'consent', array(
+            'user_id'=>$USER->id
+        ));
 
-            $user_prefs = json_decode($DB->get_field('local_inlinetrainer_users', 'preferences', array(
-                'user_id'=>$USER->id
-            )));
 
-            if($user_prefs->researchConsent){
+
+            if($consent==1){
                 $activity = new stdClass();
 
                 $activity->timestamp = $params['timestamp'];
@@ -284,4 +285,6 @@ class local_inlinetrainer_external extends external_api {
     static function log_activity_returns() {
         return new external_value(PARAM_BOOL, 'Whether the activity was added');
     }
+
+
 }
