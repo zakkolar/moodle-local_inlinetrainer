@@ -47,10 +47,13 @@ export class Action {
         const reversedSteps = this.steps.slice().reverse();
         for (const step of reversedSteps){
             step.initWatch();
+            step.subscribe(()=>{
+                this.determineCurrentStep();
+            })
         }
     }
 
-    async initCurrentStep() {
+    async determineCurrentStep() {
         const reversedSteps = this.steps.slice().reverse();
         for (const index in reversedSteps){
             let complete = await reversedSteps[index].isComplete();
@@ -158,7 +161,7 @@ export class Action {
 
     initSteps() {
         this.initWatchSteps();
-        this.initCurrentStep();
+        this.determineCurrentStep();
 
     }
 
