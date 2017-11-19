@@ -7,9 +7,6 @@ define(['jquery', 'core/ajax', 'local_inlinetrainer/trainer'],function($, ajax, 
 			inline_trainer_element.setAttribute("id","zk_inlinetrainer");
 			document.body.appendChild(inline_trainer_element);
 
-
-			console.log(user_prefs);
-
 			trainer.init(ajax, user_prefs);
 		}
 	};
