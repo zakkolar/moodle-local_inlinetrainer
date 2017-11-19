@@ -95,7 +95,7 @@ export class Step {
 
                 this._completeLock.writeLock(()=>{
 
-                if((!prerequisitesComplete && (!init || (init && !step._skipPrerequisitesOnInit))) /*|| (!complete && !step.prerequisitesComplete())*/){
+                if(!prerequisitesComplete && (!init || (init && !step._skipPrerequisitesOnInit))){
                     step.complete = false;
                 }
                 else if(complete || postrequisitesComplete){

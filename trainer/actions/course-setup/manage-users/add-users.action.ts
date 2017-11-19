@@ -87,7 +87,8 @@ steps['role_type'] = new EventStep({
     completeEvent: 'change keyup click',
     completeTarget: '#id_enrol_manual_assignable_roles',
     identifier: 'role_type',
-    prerequisites:[steps['enroll_users_popup']]
+    prerequisites:[steps['enroll_users_popup']],
+    optional:true
 
 });
 
@@ -128,12 +129,7 @@ steps['finish_enrolling_users'] =  new EventStep({
         ShowHint('.close-button input[type=button]');
     },
     checkComplete: function(resolve){
-        setTimeout(function(){
-            const $ = require('jquery');
-            const panel = $('.user-enroller-panel');
-            const complete = panel.length==0 || panel.css('display').toString() === 'none';
-            resolve(complete);
-        }, 10)
+        resolve(CheckEventHappened('.close-button input[type=button]','click'));
     },
     completeEvent: 'click',
     completeTarget: '.close-button input[type=button]',

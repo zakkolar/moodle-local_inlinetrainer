@@ -3,7 +3,7 @@ import {LocalStorage} from "./local-storage";
 export const SyncAction = function (action: Action){
   for(let step of action.steps){
     step.subscribe(async function(){
-      if (step.persistent || await !step.complete) {
+      if (step.persistent || await !step.isComplete()) {
         action.exportStepCompletion().then(function(state){
             LocalStorage.set('synced-actions.'+action.identifier, state);
         });
