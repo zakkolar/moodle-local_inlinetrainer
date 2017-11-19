@@ -68,19 +68,19 @@ steps['add_button'] = new RouteStep({
 
 steps['assignment_name'] = new FillTextInputStep({
    text: 'Type your assignment\'s name in "Assignment Name"',
-    target:'#id_name',
+    target:'#page-mod-assign-mod #id_name',
 
     help:function(){
-       ShowHint('#id_name');
+       ShowHint('#page-mod-assign-mod #id_name');
     },
     identifier: 'assignment_name',
 });
 
 steps['assignment_description'] = new FillTextareaStep({
    text: 'Type your assignment\'s description in "Description"',
-    target:'#id_introeditoreditable',
+    target:'#page-mod-assign-mod #id_introeditoreditable',
     help:function(){
-       ShowHint('.editor_atto_wrap');
+       ShowHint('#page-mod-assign-mod .editor_atto_wrap');
     },
     identifier: 'assignment_description',
     optional:true,
@@ -88,37 +88,21 @@ steps['assignment_description'] = new FillTextareaStep({
 
 steps['allow_submissions_from'] = new FillMoodleDateTimeStep({
    text: 'Set the date to start allowing submissions',
-    targetBase:'#id_allowsubmissionsfromdate',
+    targetBase:'#page-mod-assign-mod #id_allowsubmissionsfromdate',
     help:function(){
-       ShowHint('.fdate_time_selector:eq(0)');
+       ShowHint('#page-mod-assign-mod .fdate_time_selector:eq(0)');
     },
     identifier: 'allow_submissions_from',
     optional:true,
 });
 steps['due_date'] = new FillMoodleDateTimeStep({
    text: 'Set the due date for the assignment',
-    targetBase:'#id_duedate',
+    targetBase:'#page-mod-assign-mod #id_duedate',
     help:function(){
-       ShowHint('.fdate_time_selector:eq(1)');
+       ShowHint('#page-mod-assign-mod .fdate_time_selector:eq(1)');
     },
     identifier: 'due_date',
     optional:true,
-});
-
-steps['select_assignment'] = new EventStep({
-    text: 'Select "assignment" as the type of activity',
-    help: function(){
-        ShowHint('label[for=module_assign]');
-    },
-    completeEvent: 'change',
-    completeTarget: 'input[name=jumplink]',
-    checkComplete:function(resolve){
-        resolve(Checked('#module_assign'))
-    },
-    uncompleteEvent: 'change',
-    uncompleteTarget: 'input[name=jumplink]',
-    identifier: 'enroll_users_popup',
-    prerequisites: [steps['click_add_activity']]
 });
 
 steps['save_and_return'] = new EventStep({
@@ -127,10 +111,10 @@ steps['save_and_return'] = new EventStep({
         ShowHint('#id_submitbutton2');
     },
     checkComplete: function(resolve){
-        resolve(CheckEventHappened('#mform1', 'submit'));
+        resolve(CheckEventHappened('#page-mod-assign-mod  #mform1', 'submit'));
     },
     completeEvent: 'submit',
-    completeTarget: '#mform1',
+    completeTarget: '#page-mod-assign-mod  #mform1',
     identifier: 'save_and_return',
     persistent:true
 });

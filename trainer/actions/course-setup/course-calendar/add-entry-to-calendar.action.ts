@@ -40,18 +40,18 @@ steps['event_type'] = new EventStep({
     ShowHint('#id_eventtype');
   },
   completeEvent: 'change',
-  completeTarget: '#id_eventtype',
+  completeTarget: '#page-calendar-event #id_eventtype',
   checkComplete: function(resolve){
-    resolve(CheckValue('#id_eventtype', 'course'));
+    resolve(CheckValue('#page-calendar-event #id_eventtype', 'course'));
   },
   identifier: 'event_type',
 
 });
 steps['event_title'] = new FillTextInputStep({
   text: 'Type your event\'s title in "Event Title"',
-  target: '#id_name',
+  target: '#page-calendar-event #id_name',
   help: function(){
-    ShowHint('#id_name');
+    ShowHint('#page-calendar-event #id_name');
   },
   identifier: 'event_title',
 
@@ -59,18 +59,18 @@ steps['event_title'] = new FillTextInputStep({
 steps['event_description'] = new FillTextareaStep({
   text: 'Type your event\'s description in "Description"',
   help: function(){
-    ShowHint('.editor_atto');
+    ShowHint('#page-calendar-event .editor_atto');
   },
   optional: true,
-  target: '#id_descriptioneditable',
+  target: '#page-calendar-event #id_descriptioneditable',
   identifier: 'event_description',
 });
 steps['event_date'] = new FillMoodleDateTimeStep({
   text: 'Type your event\'s date and time in "Date"',
   help: function(){
-    ShowHint('.fdate_time_selector');
+    ShowHint('#page-calendar-event .fdate_time_selector');
   },
-  targetBase: '#id_timestart',
+  targetBase: '#page-calendar-event #id_timestart',
   identifier: 'event_date',
 });
 steps['save_event'] = new RouteStep({
