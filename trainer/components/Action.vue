@@ -14,7 +14,9 @@
                 <span v-if="step.optional">Optional: </span>
                 <a v-if="step.help!=null && step===action.currentStep && !step.complete" href='#' title="Show me how to complete this step" @click="runHelp($event,step)"><i class="fa fa-window-restore" aria-hidden="true"></i></a>
                 {{step.text}}
-                <span v-if="step.optional && step===action.currentStep"> <a href="#" @click="skipStep($event, step)">(skip)</a></span>
+                <p v-if="step.optional && step===action.currentStep  && !step.complete"> <a href="#" @click="skipStep($event, step)">(skip step)</a></p>
+                <p v-if="step.manualComplete && step===action.currentStep && !step.complete"><a href="#" @click="skipStep($event, step)">(mark step complete)</a></p>
+                <p class="no-strike" v-if="step.completeMessage && step.complete">{{step.completeMessage}}</p>
             </li>
             <li class='resetSteps' v-if="action.steps[0]!==action.currentStep">
                 <a href @click="resetSteps" class='text-danger'>Start over</a>
@@ -141,6 +143,10 @@
 
     .complete{
         text-decoration: line-through;
+        .no-strike{
+            text-decoration:none;
+            display:inline-block;
+        }
     }
     .futureStep{
         color:#999;

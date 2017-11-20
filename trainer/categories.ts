@@ -6,6 +6,7 @@ import {SetUpCalendarAction} from "./actions/course-setup/course-calendar/set-up
 import {Action} from "./action";
 import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
 import {CreateAssignmentAction} from "./actions/student-work-assessment/individual-assignments/create-assignment.action";
+import {UploadVideoAction} from "./actions/upload-and-organize-course-materials/multi-media/upload-video.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -27,7 +28,9 @@ let categories: Category[] = [
             new Category('Documents'),
             new Category('Organize course page'),
             new Category('External Links'),
-            new Category('Multi Media')
+            new Category('Multi Media').addActions([
+              UploadVideoAction
+            ])
         ]),
     new Category('Student Work and Assessment', 'Create, edit and grade assignments; manage gradebook.')
         .addSubcategories([

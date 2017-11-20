@@ -24,6 +24,8 @@ export class Step {
     private _skipPrerequisitesOnInit: boolean;
     identifier: string;
     persistent: boolean;
+    manualComplete: boolean;
+    completeMessage: string;
     private _completeLock;
 
     constructor(params){
@@ -46,6 +48,9 @@ export class Step {
         this.persistent = params.persistent || false;
         this._skipPrerequisitesOnInit = params.skipPrerequisitesOnInit || false;
         this._completeLock = locks.createReadWriteLock();
+        this.manualComplete = params.manualComplete || false;
+        this.completeMessage = params.completeMessage || null;
+
     }
 
     /**
