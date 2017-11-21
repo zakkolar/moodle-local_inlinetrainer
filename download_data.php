@@ -15,8 +15,9 @@ $activities = [];
 
 foreach($activity_db as $activity){
     $current_activity = new stdClass();
-    $current_activity->timestamp = $activity->timestamp;
-    $current_activity->user_id = $activity->user_id;
+    $current_activity->id = intval($activity->id);
+    $current_activity->timestamp = intval($activity->timestamp);
+    $current_activity->user_id = intval($activity->user_id);
     $current_activity->type = $activity->type;
     $current_activity->data = json_decode($activity->data);
     $activities[] = $current_activity;
