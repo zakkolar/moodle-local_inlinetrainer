@@ -23,8 +23,21 @@ function local_inlinetrainer_extend_navigation(global_navigation $navigation) {
 
     if(has_capability('local/inlinetrainer:researchtrainer', context_system::instance())){
         $trainer_menu_node = $navigation->add(get_string('research_menu','local_inlinetrainer'));
-        $download_node = $trainer_menu_node->add(get_string('download_link','local_inlinetrainer'), new moodle_url('/local/inlinetrainer/download_data.php'));
-//        $thingnode->make_active();
+
+        $download_new_url = new moodle_url('/local/inlinetrainer/download_data.php');
+
+        $last_id = 0;
+        if(property_exists($CFG, 'local_inlinetrainer_last_id')){
+            $last_id = $CFG->local_inlinetrainer_last_id;
+        }
+
+        $download_new_url->param('last_id', $last_id);
+
+        $download_all_url = new moodle_url('/local/inlinetrainer/download_data.php');
+
+        $download_new_node = $trainer_menu_node->add(get_string('download_new','local_inlinetrainer'), $download_new_url);
+        $download_all_node = $trainer_menu_node->add(get_string('download_all','local_inlinetrainer'), $download_all_url);
+
     }
 
 
