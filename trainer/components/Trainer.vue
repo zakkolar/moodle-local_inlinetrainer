@@ -4,7 +4,14 @@
             <div v-show="open" class="card" id="zk_inlinetrainer" class="zk_inlinetrainer">
                 <div class="card-header h6 card-inverse card-primary title">
                     Inline Trainer
+
+
                     <i @click="open = !open" class="fa fa-minus minimize pull-right" aria-hidden="true"></i>
+                    <b-popover v-if="helpText" placement="bottom" triggers="click" class="pull-right" :content="helpText">
+                        <i class="fa fa-question-circle trainer-help" aria-hidden="true"></i>
+                    </b-popover>
+
+
                 </div>
                 <div class="card-block" style="height: calc(100% - 65px);">
                     <b-tabs ref="tabs" v-model="tabIndex" v-show="!ask">
@@ -61,6 +68,10 @@
                   LogActivity(val? TRAINER_OPEN : TRAINER_CLOSE, {});
               }
           },
+            helpText:function(){
+                return this.$store.getters['trainerSettings/helpText']
+            },
+
         ask() {
               return this.$store.getters['userSettings/ask'];
           }
@@ -135,6 +146,10 @@
             border-style:solid;
             border-width:1px;
             border-color:rgba(0,0,0,0.1);
+        }
+        .trainer-help{
+            padding:5px 10px;
+            cursor:pointer;
         }
         .title{
             cursor: move;

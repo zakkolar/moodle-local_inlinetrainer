@@ -6,6 +6,7 @@ import {Favorites} from "./favorites";
 import {Recents} from "./recents";
 import {TabSettings} from "./tab-settings";
 import {UserSettings} from "./user-settings";
+import {TrainerSettings} from "./trainer-settings";
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
         recents:Recents,
         tabSettings: TabSettings,
         userSettings: UserSettings,
+        trainerSettings: TrainerSettings
     }
 });

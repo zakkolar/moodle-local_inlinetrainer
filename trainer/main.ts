@@ -7,7 +7,7 @@ import {TrainerServerQueue} from "./sync/trainer-server-queue";
 import {RESEARCH_DATA_COLLECTION} from "./settings";
 
 
-export const init = function(ajax, user_prefs){
+export const init = function(ajax, userPrefs){
 
 
 
@@ -18,13 +18,14 @@ export const init = function(ajax, user_prefs){
             render: h => h(Trainer),
             beforeCreate(){
                 if(RESEARCH_DATA_COLLECTION){
-                    if(user_prefs===null){
+                    if(userPrefs===null){
                         this.$store.dispatch('userSettings/enableAsk');
                     }
                     else{
-                        this.$store.dispatch('userSettings/setResearchConsent', user_prefs.researchConsent);
+                        this.$store.dispatch('userSettings/setResearchConsent', userPrefs.researchConsent);
                     }
                 }
+                this.$store.dispatch('trainerSettings/load');
                 TrainerServerQueue.setAjax(ajax);
                 this.$store.dispatch('favorites/sync');
                 this.$store.dispatch('recents/sync');

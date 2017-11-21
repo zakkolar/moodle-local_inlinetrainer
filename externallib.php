@@ -1,6 +1,7 @@
 <?php
 require_once($CFG->libdir . "/externallib.php");
 class local_inlinetrainer_external extends external_api {
+
     public static function add_favorite_parameters() {
         return new external_function_parameters(
             array('action' => new external_value(PARAM_TEXT, 'The identifier of the action to add to favorites'))
@@ -31,6 +32,45 @@ class local_inlinetrainer_external extends external_api {
 
      static function add_favorite_returns() {
         return new external_value(PARAM_BOOL, 'Whether the favorite was added');
+    }
+
+    public static function get_trainer_settings_parameters() {
+        return new external_function_parameters(array());
+    }
+
+    public static function get_trainer_settings() {
+        global $USER, $CFG;
+
+        $context = get_context_instance(CONTEXT_USER, $USER->id);
+        self::validate_context($context);
+        self::validate_capability();
+
+        $trainer_settings = [];
+
+        if(property_exists($CFG, 'local_inlinetrainer_consent_message')){
+            $trainer_settings['consentMessage'] = format_text($CFG->local_inlinetrainer_consent_message, FORMAT_HTML);
+        }
+        else{
+            $trainer_settings['consentMessage'] = null;
+        }
+
+        if(property_exists($CFG, 'local_inlinetrainer_help_text')){
+            $trainer_settings['helpText'] = format_text($CFG->local_inlinetrainer_help_text, FORMAT_HTML);
+        }
+        else{
+            $trainer_settings['helpText'] = null;
+        }
+
+        return $trainer_settings;
+    }
+
+    static function get_trainer_settings_returns() {
+        return new external_single_structure(
+            array(
+                'consentMessage'=>new external_value(PARAM_RAW, 'Text of the consent message'),
+                'helpText'=>new external_value(PARAM_RAW, 'Help information for trainer')
+            )
+        );
     }
 
  public static function set_consent_parameters() {
