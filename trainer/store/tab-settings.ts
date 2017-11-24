@@ -6,8 +6,7 @@ export const TabSettings = {
     state:{
       actions:LocalStorage.get('trainer.tabs.actions') || {all:[],recents:[],favorites:[]},
         categories:LocalStorage.get('trainer.tabs.categories') || [],
-        tabIndex: LocalStorage.get('trainer.settings.tabIndex') || 0,
-        open: LocalStorage.get('trainer.settings.open')!=null ? LocalStorage.get('trainer.settings.open') : true
+        tabIndex: LocalStorage.get('trainer.settings.tabIndex') || 0
     },
     mutations:{
         addAction(state, params){
@@ -44,10 +43,6 @@ export const TabSettings = {
         setTabIndex(state, index){
             state.tabIndex = index;
             LocalStorage.set('trainer.settings.tabIndex', index);
-        },
-        setOpen(state, open){
-            state.open = open;
-            LocalStorage.set('trainer.settings.open', open);
         }
     },
     actions:{
@@ -65,9 +60,6 @@ export const TabSettings = {
         },
         setTabIndex(context, index){
             context.commit('setTabIndex', index);
-        },
-        setOpen(context, open){
-            context.commit('setOpen', open);
         }
     },
     getters:{
@@ -79,9 +71,6 @@ export const TabSettings = {
         },
         tabIndex(state){
             return state.tabIndex;
-        },
-        open(state){
-            return state.open;
         }
     }
 };

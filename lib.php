@@ -13,6 +13,10 @@ function local_inlinetrainer_extend_navigation(global_navigation $navigation) {
         $user_prefs->researchConsent = $DB->get_field('local_inlinetrainer_users', 'consent', array(
             'user_id'=>$USER->id
         ))==1;
+
+        $user_prefs->open = $DB->get_field('local_inlinetrainer_users', 'open', array(
+                'user_id'=>$USER->id
+            ))==1;
     }
 
 

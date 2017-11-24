@@ -61,10 +61,10 @@
           },
           open:{
               get: function(){
-                  return this.$store.getters['tabSettings/open'];
+                  return this.$store.getters['userSettings/open'];
               },
               set: function(val){
-                  this.$store.dispatch('tabSettings/setOpen', val);
+                  this.$store.dispatch('userSettings/setOpen', val);
                   LogActivity(val? TRAINER_OPEN : TRAINER_CLOSE, {});
               }
           },

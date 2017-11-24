@@ -64,6 +64,14 @@ $functions = array(
         'description' => 'Gets trainer settings from the database',
         'type'        => 'read',
         'ajax'        => true
+    ),
+    'local_inlinetrainer_set_open' => array(
+        'classname'   => 'local_inlinetrainer_external',
+        'methodname'  => 'set_open',
+        'classpath'   => 'local/inlinetrainer/externallib.php',
+        'description' => 'Sets whether the trainer is open',
+        'type'        => 'write',
+        'ajax'        => true
     )
 );
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
@@ -77,7 +85,8 @@ $services = array(
             'local_inlinetrainer_get_recent_actions',
             'local_inlinetrainer_log_activity',
             'local_inlinetrainer_set_consent',
-            'local_inlinetrainer_get_trainer_settings'
+            'local_inlinetrainer_get_trainer_settings',
+            'local_inlinetrainer_set_open'
         ),
         'restrictedusers' => 0,
         'enabled'=>1,

@@ -22,7 +22,8 @@ export const init = function(ajax, userPrefs){
                         this.$store.dispatch('userSettings/enableAsk');
                     }
                     else{
-                        this.$store.dispatch('userSettings/setResearchConsent', userPrefs.researchConsent);
+                        this.$store.commit('userSettings/setResearchConsent', userPrefs.researchConsent);
+                        this.$store.commit('userSettings/setOpen', userPrefs.open);
                     }
                 }
                 this.$store.dispatch('trainerSettings/load');

@@ -34,6 +34,39 @@ class local_inlinetrainer_external extends external_api {
         return new external_value(PARAM_BOOL, 'Whether the favorite was added');
     }
 
+    public static function set_open_parameters() {
+        return new external_function_parameters(
+            array('open' => new external_value(PARAM_BOOL, 'Whether the trainer is open'))
+        );
+    }
+
+    public static function set_open($open) {
+        global $USER, $DB;
+        $params = self::validate_parameters(self::set_open_parameters(),
+            array('open' => $open));
+        $context = get_context_instance(CONTEXT_USER, $USER->id);
+        self::validate_context($context);
+        self::validate_capability();
+
+
+
+        if(self::preferences_set()){
+
+            $openVal = $open? 1 : 0;
+
+            $preferences = self::get_preferences();
+
+            $preferences->open = $openVal;
+
+            return $DB->update_record('local_inlinetrainer_users', $preferences);
+        }
+        return false;
+    }
+
+     static function set_open_returns() {
+        return new external_value(PARAM_BOOL, 'Whether the open state was saved');
+    }
+
     public static function get_trainer_settings_parameters() {
         return new external_function_parameters(array());
     }
@@ -187,6 +220,15 @@ class local_inlinetrainer_external extends external_api {
         global $DB, $USER;
         self::validate_capability();
         return $DB->record_exists('local_inlinetrainer_users', array(
+            'user_id'=>$USER->id,
+
+        ));
+    }
+
+    static function get_preferences(){
+        global $DB, $USER;
+        self::validate_capability();
+        return $DB->get_record('local_inlinetrainer_users', array(
             'user_id'=>$USER->id,
 
         ));

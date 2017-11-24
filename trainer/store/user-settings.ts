@@ -5,7 +5,8 @@ export const UserSettings = {
     namespaced:true,
     state:{
         ask: false,
-        researchConsent: false
+        researchConsent: false,
+        open: true
     },
     mutations:{
         setResearchConsent(state, consent) {
@@ -13,6 +14,9 @@ export const UserSettings = {
         },
         setAsk(state, ask){
             state.ask = ask;
+        },
+        setOpen(state, open){
+            state.open = open;
         }
     },
     actions:{
@@ -26,6 +30,12 @@ export const UserSettings = {
         },
         enableAsk(context){
             context.commit('setAsk',true);
+        },
+        setOpen(context, open){
+            context.commit('setOpen', open);
+            TrainerServerQueue.addJob('local_inlinetrainer_set_open',{
+                open:open
+            });
         }
     },
     getters:{
@@ -34,6 +44,9 @@ export const UserSettings = {
         },
         ask(state){
             return state.ask;
+        },
+        open(state){
+            return state.open;
         }
     }
 };
