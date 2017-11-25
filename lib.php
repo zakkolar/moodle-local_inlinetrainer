@@ -1,29 +1,40 @@
 <?php
 
 
+function local_inlinetrainer_get_user_prefs(){
 
-function local_inlinetrainer_extend_navigation(global_navigation $navigation) {
-	global $PAGE, $COURSE, $trainer_menu_node, $DB, $USER, $CFG;
+    global $DB, $USER;
 
-	$user_prefs = null;
+    $user_prefs = null;
 
-	if($DB->count_records('local_inlinetrainer_users',array('user_id'=>$USER->id))>0){
+    if($DB->count_records('local_inlinetrainer_users',array('user_id'=>$USER->id))>0){
         $user_prefs = new stdClass();
 
         $user_prefs->researchConsent = $DB->get_field('local_inlinetrainer_users', 'consent', array(
-            'user_id'=>$USER->id
-        ))==1;
+                'user_id'=>$USER->id
+            ))==1;
 
         $user_prefs->open = $DB->get_field('local_inlinetrainer_users', 'open', array(
                 'user_id'=>$USER->id
             ))==1;
     }
 
+    return $user_prefs;
+}
 
-	if(has_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id)) && core_useragent::get_user_device_type()=='default') {
+function local_inlinetrainer_add_trainer_to_page(){
+    global $PAGE, $COURSE;
+
+    $user_prefs = local_inlinetrainer_get_user_prefs();
+
+
+    if(has_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id)) && core_useragent::get_user_device_type()=='default') {
         $PAGE->requires->js_call_amd('local_inlinetrainer/load', 'init', [$user_prefs]);
     }
+}
 
+function local_inline_trainer_add_data_links($navigation){
+    global $trainer_menu_node,$CFG;
 
     if(has_capability('local/inlinetrainer:researchtrainer', context_system::instance())){
         $trainer_menu_node = $navigation->add(get_string('research_menu','local_inlinetrainer'));
@@ -43,8 +54,10 @@ function local_inlinetrainer_extend_navigation(global_navigation $navigation) {
         $download_all_node = $trainer_menu_node->add(get_string('download_all','local_inlinetrainer'), $download_all_url);
 
     }
+}
 
 
-
-
+function local_inlinetrainer_extend_navigation(global_navigation $navigation) {
+    local_inlinetrainer_add_trainer_to_page();
+    local_inline_trainer_add_data_links($navigation);
 }
