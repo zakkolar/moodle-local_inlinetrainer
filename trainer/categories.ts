@@ -5,7 +5,7 @@ import {AddEntryToCalendarAction} from "./actions/course-setup/course-calendar/a
 import {SetUpCalendarAction} from "./actions/course-setup/course-calendar/set-up-calendar.action";
 import {Action} from "./action";
 import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
-import {CreateAssignmentAction} from "./actions/student-work-assessment/individual-assignments/create-assignment.action";
+import {CreateAssignmentAction} from "./actions/student-work-and-assessment/individual-assignments/create-assignment.action";
 import {UploadVideoAction} from "./actions/upload-and-organize-course-materials/multi-media/upload-video.action";
 
 let categories: Category[] = [
