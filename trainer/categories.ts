@@ -10,6 +10,7 @@ import {UploadVideoAction} from "./actions/upload-and-organize-course-materials/
 import {CreateForumAction} from "./actions/communication-and-discussion/forums/create-forum.action";
 import {CreateGradeCategoriesAction} from "./actions/assignments-and-gradebook/gradebook-setup/create-grade-categories.action";
 import {AssignWeightsToCategoriesAction} from "./actions/assignments-and-gradebook/gradebook-setup/assign-weights-to-categories.action";
+import {ViewClassGradeReportAction} from "./actions/assignments-and-gradebook/monitoring-student-progress/view-class-grade-report.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -44,7 +45,9 @@ let categories: Category[] = [
             new Category('Assignments and grading').addActions([
                 CreateAssignmentAction
             ]),
-            new Category('Monitoring student progress')
+            new Category('Monitoring student progress').addActions([
+                ViewClassGradeReportAction
+            ])
         ]),
     new Category('Communication and Discussion', 'Manage forums and message students.')
         .addSubcategories([
