@@ -12,6 +12,7 @@ import {FillMoodleDateTimeStep} from "../../../step/fill-moodle-date-time-step";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
 import {AddActivityFactory} from "../../../shared_steps/add-activity.factory";
 import {OpenCourseAdministrationFactory} from "../../../shared_steps/open-course-administration.factory";
+import {GradebookSetupButtonFactory} from "../../../shared_steps/gradebook-setup-button.factory";
 
 
 
@@ -20,14 +21,7 @@ steps['course_page'] = CoursePageFactory();
 
 steps['open_course_administration'] = OpenCourseAdministrationFactory();
 
-steps['gradebook_setup_button'] = new RouteStep({
-    text: 'Click "Gradebook setup"',
-    help: function(){
-        ShowHint('#settingsnav>ul>.type_course.contains_branch>ul>li:nth-of-type(9)');
-    },
-    route: '/grade/edit/tree/index.php',
-    identifier:'gradebook_setup_button'
-});
+steps['gradebook_setup_button'] = GradebookSetupButtonFactory();
 
 steps['add_category_button'] = new RouteStep({
     text: 'Click "Add category"',

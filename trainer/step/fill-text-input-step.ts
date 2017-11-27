@@ -4,6 +4,7 @@
 import {EventStep} from "./event-step";
 import {CheckValue} from "../helpers/check-value";
 import {ShowHint} from "../helpers/show-hint";
+import {CheckEventHappened} from "../helpers/check-event-happened";
 
 export class FillTextInputStep extends EventStep {
     constructor(params) {
@@ -11,7 +12,7 @@ export class FillTextInputStep extends EventStep {
             completeEvent: 'change keyup',
             completeTarget: params.target,
             checkComplete:function(resolve){
-                resolve(CheckValue(params.target, '', true));
+                resolve(CheckEventHappened(params.target, 'change keyup'));
             }
         };
         const allParams = Object.assign(params, eventParams);
