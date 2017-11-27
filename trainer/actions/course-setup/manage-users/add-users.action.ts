@@ -6,27 +6,13 @@ import {ShowHint} from "../../../helpers/show-hint";
 import {CheckAttribute} from "../../../helpers/check-attribute";
 import {RouteStep} from "../../../step/route-step";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
+import {OpenCourseAdministrationFactory} from "../../../shared_steps/open-course-administration.factory";
 
 
 const steps = {};
 steps['course_page'] = CoursePageFactory();
 
-steps['open_course_administration'] = new EventStep({
-    text: 'Open the "Course Administration" menu on the left side of the screen',
-    help: function(){
-        ShowHint('#settingsnav .type_course.contains_branch');
-    },
-    checkComplete: function(resolve){
-        setTimeout(function(){
-            resolve(CheckAttribute('#settingsnav>ul>.type_course.contains_branch>p.tree_item', 'aria-expanded','true'))
-        },100);
-    },
-    completeEvent: 'click',
-    completeTarget: '#settingsnav>ul>.type_course.contains_branch>p.tree_item',
-    uncompleteEvent: 'click',
-    uncompleteTarget: '#settingsnav>ul>.type_course.contains_branch>p.tree_item',
-    identifier: 'open_course_administration',
-});
+steps['open_course_administration'] = OpenCourseAdministrationFactory();
 
 steps['open_users'] = new EventStep({
     text: 'Open the "Users" submenu under "Course Administration" on the left side of the screen',
