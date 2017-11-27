@@ -113,7 +113,7 @@ steps['set_grade_category'] = new EventStep({
     ShowHint('#id_gradecat');
    } ,
     checkComplete:function(resolve){
-       resolve(CheckEventHappened('#page-mod-assign-mod #id_gradecat','change'));
+       resolve(CheckEventHappened('#page-mod-assign-mod id_gradecat','change'));
     },
     completeEvent:'change',
     completeTarget: '#page-mod-assign-mod #id_gradecat'
