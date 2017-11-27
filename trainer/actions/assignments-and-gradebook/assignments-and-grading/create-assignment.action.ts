@@ -11,6 +11,7 @@ import {FillTextareaStep} from "../../../step/fill-textarea-step";
 import {FillMoodleDateTimeStep} from "../../../step/fill-moodle-date-time-step";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
 import {AddActivityFactory} from "../../../shared_steps/add-activity.factory";
+import {CheckHasClass} from "../../../helpers/check-has-class";
 
 
 
@@ -86,6 +87,38 @@ steps['due_date'] = new FillMoodleDateTimeStep({
     optional:true,
 });
 
+steps['open_grade_section'] = new EventStep({
+    text:'Open the "Grade" section to set grading settings',
+    optional:true,
+    help:function(){
+        ShowHint('#page-mod-assign-mod #id_modstandardgrade .ftoggler');
+    },
+    checkComplete: function(resolve){
+        setTimeout(function(){
+            resolve(CheckHasClass('#page-mod-assign-mod #id_modstandardgrade', 'collapsed', true))
+        },100);
+    },
+    completeEvent: 'click',
+    completeTarget: '#page-mod-assign-mod #id_modstandardgrade .ftoggler',
+    uncompleteEvent: 'click',
+    uncompleteTarget: '#page-mod-assign-mod #id_modstandardgrade .ftoggler',
+    identifier: 'open_grade_section',
+});
+
+steps['set_grade_category'] = new EventStep({
+   optional: true,
+   identifier: 'set_grade_category',
+    text:'In the "Grade" section, set the "Grade Category" to place this assignment into a weighted category in the gradebook.',
+   help:function(){
+    ShowHint('#id_gradecat');
+   } ,
+    checkComplete:function(resolve){
+       resolve(CheckEventHappened('#page-mod-assign-mod #id_gradecat','change'));
+    },
+    completeEvent:'change',
+    completeTarget: '#page-mod-assign-mod #id_gradecat'
+});
+
 steps['save_and_return'] = new EventStep({
     text: 'Click "Save and return"',
     help: function(){
@@ -108,11 +141,13 @@ steps['select_assignment'].addPostrequisite(steps['add_button']);
 steps['assignment_description'].addPostrequisite(steps['save_and_return']);
 steps['allow_submissions_from'].addPostrequisite(steps['save_and_return']);
 steps['due_date'].addPostrequisite(steps['save_and_return']);
+steps['open_grade_section'].addPostrequisite(steps['save_and_return']);
+steps['set_grade_category'].addPostrequisite(steps['save_and_return']);
 
 
 
 export const CreateAssignmentAction: Action = new Action({
     name: 'Create assignment',
-    steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['save_and_return']],
+    steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['open_grade_section'], steps['set_grade_category'], steps['save_and_return']],
     identifier: 'create_individual_assignment'
 });
