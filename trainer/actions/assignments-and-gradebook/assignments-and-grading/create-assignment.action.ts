@@ -112,7 +112,7 @@ steps['due_date'].addPostrequisite(steps['save_and_return']);
 
 
 export const CreateAssignmentAction: Action = new Action({
-    name: 'Create Individual Assignment',
+    name: 'Create Assignment',
     steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['save_and_return']],
     identifier: 'create_individual_assignment'
 });

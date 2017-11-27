@@ -5,7 +5,7 @@ import {AddEntryToCalendarAction} from "./actions/course-setup/course-calendar/a
 import {SetUpCalendarAction} from "./actions/course-setup/course-calendar/set-up-calendar.action";
 import {Action} from "./action";
 import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
-import {CreateAssignmentAction} from "./actions/student-work-and-assessment/individual-assignments/create-assignment.action";
+import {CreateAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/create-assignment.action";
 import {UploadVideoAction} from "./actions/upload-and-organize-course-materials/multi-media/upload-video.action";
 import {CreateForumAction} from "./actions/communication-and-discussion/forums/create-forum.action";
 
@@ -33,15 +33,13 @@ let categories: Category[] = [
               UploadVideoAction
             ])
         ]),
-    new Category('Student Work and Assessment', 'Create, edit and grade assignments; manage gradebook.')
+    new Category('Assignments and Gradebook', 'Create, edit and grade assignments; manage gradebook.')
         .addSubcategories([
-            new Category('Group assignments'),
-            new Category('Individual assignments').addActions([
+            new Category('Gradebook setup'),
+            new Category('Assignments and grading').addActions([
                 CreateAssignmentAction
             ]),
-            new Category('Assignment feedback'),
-            new Category('Self assessment'),
-            new Category('Gradebook'),
+            new Category('Monitoring student progress')
         ]),
     new Category('Communication and Discussion', 'Manage forums and message students.')
         .addSubcategories([
