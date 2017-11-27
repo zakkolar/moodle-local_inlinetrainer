@@ -7,6 +7,7 @@ import {Action} from "./action";
 import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
 import {CreateAssignmentAction} from "./actions/student-work-and-assessment/individual-assignments/create-assignment.action";
 import {UploadVideoAction} from "./actions/upload-and-organize-course-materials/multi-media/upload-video.action";
+import {CreateForumAction} from "./actions/communication-and-discussion/forums/create-forum.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -45,7 +46,9 @@ let categories: Category[] = [
     new Category('Communication and Discussion', 'Manage forums and message students.')
         .addSubcategories([
             new Category('Messaging'),
-            new Category('Forums')
+            new Category('Forums').addActions([
+                CreateForumAction
+            ])
         ])
 ];
 

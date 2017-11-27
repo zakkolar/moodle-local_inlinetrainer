@@ -10,6 +10,7 @@ import {FillTextInputStep} from "../../../step/fill-text-input-step";
 import {FillTextareaStep} from "../../../step/fill-textarea-step";
 import {FillMoodleDateTimeStep} from "../../../step/fill-moodle-date-time-step";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
+import {AddActivityFactory} from "../../../shared_steps/add-activity.factory";
 
 
 
@@ -18,24 +19,7 @@ steps['course_page'] = CoursePageFactory();
 
 steps['editing_on']= EditingOnFactory();
 
-steps['click_add_activity'] = new EventStep({
-    text: 'Click "Add an activity or resource" in the section to which you wish to add the activity',
-    help: function(){
-        ShowHint('.section-modchooser-text');
-    },
-    completeEvent: 'click',
-    completeTarget: '.section-modchooser-text',
-    checkComplete:function(resolve){
-        setTimeout(function(){
-            const $ = require('jquery');
-            const complete = $('.chooserdialogue-course-modchooser').length>0 && !$('.chooserdialogue-course-modchooser').hasClass('moodle-dialogue-hidden');
-            resolve(complete);
-        }, 10)
-    },
-    uncompleteEvent: 'click',
-    uncompleteTarget: '.closebutton, .addcancel',
-    identifier: 'click_add_activity'
-});
+steps['click_add_activity'] = AddActivityFactory();
 
 steps['select_assignment'] = new EventStep({
     text: 'Select "assignment" as the type of activity',
@@ -49,7 +33,7 @@ steps['select_assignment'] = new EventStep({
     },
     uncompleteEvent: 'change',
     uncompleteTarget: 'input[name=jumplink]',
-    identifier: 'enroll_users_popup',
+    identifier: 'select_assignment',
     prerequisites: [steps['click_add_activity']]
 });
 
@@ -57,9 +41,6 @@ steps['add_button'] = new RouteStep({
     text: 'Click "add"',
     help: function(){
         ShowHint('.chooserdialogue-course-modchooser .submitbutton');
-    },
-    checkComplete:function(resolve){
-        resolve(false)
     },
     route: '/course/modedit.php',
     routeExtras: {'parameters':[['add','assign']]},
