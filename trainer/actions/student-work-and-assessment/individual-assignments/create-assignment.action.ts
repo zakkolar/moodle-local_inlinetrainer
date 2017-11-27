@@ -105,6 +105,10 @@ steps['editing_on'].addPostrequisite(steps['add_button']);
 steps['click_add_activity'].addPostrequisite(steps['add_button']);
 steps['select_assignment'].addPostrequisite(steps['add_button']);
 
+steps['assignment_description'].addPostrequisite(steps['save_and_return']);
+steps['allow_submissions_from'].addPostrequisite(steps['save_and_return']);
+steps['due_date'].addPostrequisite(steps['save_and_return']);
+
 
 
 export const CreateAssignmentAction: Action = new Action({
