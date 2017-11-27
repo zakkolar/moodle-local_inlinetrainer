@@ -70,7 +70,7 @@ steps['open_course_administration'].addPostrequisite(steps['gradebook_setup_butt
 
 
 export const AssignWeightsToCategoriesAction: Action = new Action({
-    name: 'Assign weights to categories',
+    name: 'Assign weights',
     steps:[steps['course_page'], steps['open_course_administration'], steps['gradebook_setup_button'], steps['check_weight_boxes'], steps['fill_in_weights'], steps['save_changes']],
     identifier: 'assign_weights_to_categories'
 });
