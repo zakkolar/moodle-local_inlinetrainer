@@ -30,7 +30,7 @@ function local_inlinetrainer_add_trainer_to_page(){
     //check if we've already loaded the trainer - may be the case for some instances of custom script
     $load = !defined('zk-inline-trainer-added');
 
-    if(has_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id)) && core_useragent::get_user_device_type()=='default' && $load) {
+    if(has_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id), null, false) && core_useragent::get_user_device_type()=='default' && $load) {
         $PAGE->requires->js_call_amd('local_inlinetrainer/load', 'init', [$user_prefs]);
         define('zk-inline-trainer-added', true);
     }
@@ -39,7 +39,7 @@ function local_inlinetrainer_add_trainer_to_page(){
 function local_inline_trainer_add_data_links($navigation){
     global $trainer_menu_node,$CFG;
 
-    if(has_capability('local/inlinetrainer:researchtrainer', context_system::instance())){
+    if(has_capability('local/inlinetrainer:researchtrainer', context_system::instance(), null, false)){
         $trainer_menu_node = $navigation->add(get_string('research_menu','local_inlinetrainer'));
 
         $download_new_url = new moodle_url('/local/inlinetrainer/download_data.php');
