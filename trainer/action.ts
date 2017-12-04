@@ -12,6 +12,7 @@ export class Action {
     currentStepSubscription: string;
     previousStepSubscription: string;
     identifier: string;
+    description: string;
 
     constructor(args) {
         this.name = args.name;
@@ -24,6 +25,7 @@ export class Action {
         this.previousStepSubscription = null;
         this.complete = false;
         this.identifier = args.identifier;
+        this.description = args.description || null;
 
     }
 

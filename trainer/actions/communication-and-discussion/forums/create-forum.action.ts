@@ -92,5 +92,6 @@ steps['select_forum'].addPostrequisite(steps['add_button']);
 export const CreateForumAction: Action = new Action({
     name: 'Create Forum',
     steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_forum'], steps['add_button'], steps['forum_name'], steps['forum_description'], steps['save_and_return']],
-    identifier: 'create_forum'
+    identifier: 'create_forum',
+    description:'Forums allow students to participate in text-based, threaded discussions.'
 });

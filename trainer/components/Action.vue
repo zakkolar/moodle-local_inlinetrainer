@@ -1,9 +1,11 @@
 <template>
     <div class="action">
-        <a href="#" @click="toggleOpen">
-            <chevron :open="open"></chevron>
-            {{action.name}}
-        </a>
+        <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
+            <a href="#" @click="toggleOpen">
+                <chevron :open="open"></chevron>
+                {{action.name}}
+            </a>
+        </b-popover>
         <div class='pull-right icons'>
             <a class='star pull-right' @click="removeFavorite" href="#" v-if="favorite"><i class="fa fa-star star" aria-hidden="true"></i></a>
             <a class='star pull-right' @click="addFavorite" href="#"  v-if="!favorite"><i class="fa fa-star-o star" aria-hidden="true"></i></a>

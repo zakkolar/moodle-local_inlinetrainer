@@ -101,5 +101,6 @@ export const AddEntryToCalendarAction: Action = new Action({
   name: 'Add Entry To Calendar',
   steps: [steps['course_page'], steps['click_calendar'], steps['new_event'], steps['event_type'], steps['event_title'],
     steps['event_description'], steps['event_date'], steps['save_event']],
-  identifier: 'add_entry_to_calendar'
+  identifier: 'add_entry_to_calendar',
+    description: 'Create an item to be displayed on the course calendar. Requires the course calendar to be set up.'
 });

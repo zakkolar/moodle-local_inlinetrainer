@@ -90,5 +90,6 @@ export const UploadCourseSyllabusAction: Action = new Action({
   name: 'Upload course syllabus',
   steps:[steps['course_page'], steps['syllabus_page'], steps['browse'], steps['upload'], steps['public']],
   help: 'https://kb.brandeis.edu/display/LTS/Upload+Your+Syllabus',
-  identifier: 'upload_course_syllabus'
+  identifier: 'upload_course_syllabus',
+    description: 'Upload your course syllabus and optionally add it to the public syllabus directory.'
 });

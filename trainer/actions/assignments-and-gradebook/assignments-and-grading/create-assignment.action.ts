@@ -149,5 +149,6 @@ steps['set_grade_category'].addPostrequisite(steps['save_and_return']);
 export const CreateAssignmentAction: Action = new Action({
     name: 'Create assignment',
     steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['open_grade_section'], steps['set_grade_category'], steps['save_and_return']],
-    identifier: 'create_individual_assignment'
+    identifier: 'create_individual_assignment',
+    description: 'Create a place for students to submit an assignment through your course page.'
 });

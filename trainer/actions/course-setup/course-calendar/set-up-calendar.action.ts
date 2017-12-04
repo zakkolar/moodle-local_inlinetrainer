@@ -26,5 +26,6 @@ steps['editing_on'].addPostrequisite(steps['add_block']);
 export const SetUpCalendarAction: Action = new Action({
   name: 'Set Up Calendar',
   steps:[steps['course_page'], steps['editing_on'], steps['add_block']],
-  identifier: 'set-up-calendar'
+  identifier: 'set-up-calendar',
+    description: 'Add a calendar block to your course page that displays assignment due dates and custom events.'
 });

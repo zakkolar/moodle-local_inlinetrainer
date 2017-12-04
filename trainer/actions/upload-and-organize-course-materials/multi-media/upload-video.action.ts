@@ -49,5 +49,6 @@ steps['editing_on'].addPostrequisite(steps['add_block']);
 export const UploadVideoAction: Action = new Action({
     name: 'Add Video',
     steps:[steps['course_page'], steps['editing_on'], steps['add_block'], steps['add_video']],
-    identifier: 'upload_video'
+    identifier: 'upload_video',
+    description: 'Add a video to your course page for students to watch. The video must be owned or purchased by the Brandeis library.'
 });

@@ -135,5 +135,6 @@ steps['open_users'].addPostrequisite(steps['enrolled_users_page']);
 export const AddUsersAction: Action = new Action({
     name: 'Add Users To Course',
     steps:[steps['course_page'], steps['open_course_administration'], steps['open_users'], steps['enrolled_users_page'], steps['enroll_users_popup'], steps['role_type'], steps['search_users'], steps['enroll_users_button'], steps['finish_enrolling_users']],
-    identifier: 'add_users'
+    identifier: 'add_users',
+    description: 'Add teaching assistants, guest students, and other instructors to your course.'
 });

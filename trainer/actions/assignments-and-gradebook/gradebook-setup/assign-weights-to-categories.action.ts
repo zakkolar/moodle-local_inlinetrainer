@@ -72,5 +72,6 @@ steps['open_course_administration'].addPostrequisite(steps['gradebook_setup_butt
 export const AssignWeightsToCategoriesAction: Action = new Action({
     name: 'Assign weights',
     steps:[steps['course_page'], steps['open_course_administration'], steps['gradebook_setup_button'], steps['check_weight_boxes'], steps['fill_in_weights'], steps['save_changes']],
-    identifier: 'assign_weights_to_categories'
+    identifier: 'assign_weights_to_categories',
+    description: 'Assign weights to grade categories. The grades within the category will be applied to the overall grade with respect for the weight. For example, assignments in a category of weight 10 would make up 10% of the user\'s total grade.'
 });

@@ -37,5 +37,6 @@ export const ViewClassGradeReportAction: Action = new Action({
         steps['open_course_administration'],
         steps['grades_button']
     ],
-    identifier: 'view_class_grade_report'
+    identifier: 'view_class_grade_report',
+    description: 'View a report that gives an overview of students\' grades within the course.'
 });

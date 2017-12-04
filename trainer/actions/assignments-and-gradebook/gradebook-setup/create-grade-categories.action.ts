@@ -69,5 +69,6 @@ steps['gradebook_setup_button'].addPostrequisite(steps['add_category_button']);
 export const CreateGradeCategoriesAction: Action = new Action({
     name: 'Create grade categories',
     steps:[steps['course_page'], steps['open_course_administration'], steps['gradebook_setup_button'], steps['add_category_button'], steps['category_name'], steps['save_changes']],
-    identifier: 'create_grade_categories'
+    identifier: 'create_grade_categories',
+    description: 'Categories are used to group similar types of assignments. Example categories are quizzes, tests, essays, and problem sets.'
 });
