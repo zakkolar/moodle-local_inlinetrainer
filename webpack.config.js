@@ -86,7 +86,7 @@ if (process.env.NODE_ENV === 'production') {
         }),
         // tell jshint to ignore the compiled file to play nicely with Moodle's build process
         new webpack.BannerPlugin({
-            banner: '// jshint ignore: start',
+            banner: '// this file is automatically built by webpack. ignoring the hints and lints\n// jshint ignore: start\n/* eslint-disable */',
             raw: true
         })
     ])

@@ -73,5 +73,12 @@
         margin-left:15px;
     }
 
+    #zk_inlinetrainer{
+        .card{
+            padding:0;
+            margin:0;
+        }
+    }
+
 
 </style>
