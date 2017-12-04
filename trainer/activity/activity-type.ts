@@ -13,3 +13,4 @@ export const CATEGORY_OPEN = 'category.open';
 export const CATEGORY_CLOSE = 'category.close';
 export const SUBCATEGORY_OPEN = 'subcategory.open';
 export const SUBCATEGORY_CLOSE = 'subcategory.close';
+export const VIDEO_CLICK = 'video.click';

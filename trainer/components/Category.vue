@@ -10,6 +10,7 @@
 
         </div>
         <div v-if="open" class="card-block">
+            <a v-if="category.video" href="#" @click="showVideo"  title="Watch a video overview of the actions in this category"><i class="fa fa-film" aria-hidden="true"></i> Video overview</a>
             <ul class="categories">
                 <li v-for="subcategory in category.subCategories">
                     <subcategory v-bind:subcategory="subcategory"></subcategory>
@@ -24,7 +25,7 @@
     import Chevron from './Chevron.vue';
     import Subcategory from './Subcategory.vue';
     import {Category} from "../category";
-    import {CATEGORY_CLOSE, CATEGORY_OPEN} from "../activity/activity-type";
+    import {CATEGORY_CLOSE, CATEGORY_OPEN, VIDEO_CLICK} from "../activity/activity-type";
     import {LogActivity} from "../activity/log-activity";
     export default {
         selector:'category',
@@ -53,6 +54,14 @@
                 LogActivity(this.open? CATEGORY_OPEN : CATEGORY_CLOSE, {
                     category:this.category.identifier(),
                 });
+            },
+            showVideo:function(e:Event){
+                e.preventDefault();
+                LogActivity(VIDEO_CLICK,{
+                    category: this.category.identifier()
+                });
+                window.open(this.category.video, '_blank');
+
             }
         },
         computed:{

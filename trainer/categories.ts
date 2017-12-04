@@ -36,7 +36,7 @@ let categories: Category[] = [
               UploadVideoAction
             ])
         ]),
-    new Category('Assignments and Gradebook', 'Create, edit and grade assignments; manage gradebook.')
+    new Category('Assignments and Gradebook', 'Create, edit and grade assignments; manage gradebook.', 'https://www.youtube.com/watch?v=KxKf4r1Y2Ks')
         .addSubcategories([
             new Category('Gradebook setup').addActions([
                 CreateGradeCategoriesAction,

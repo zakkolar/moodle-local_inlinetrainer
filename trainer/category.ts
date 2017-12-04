@@ -6,11 +6,13 @@ export class Category{
     description: string;
     subCategories: Category[];
     actions: Action[];
-    constructor(name:string, description?: string){
+    video: string;
+    constructor(name:string, description?: string, video?: string){
         this.name=name;
         this.description=description || null;
         this.subCategories = [];
         this.actions = [];
+        this.video = video || null;
     }
 
     addSubcategories(categories:Category[]){
