@@ -80,11 +80,11 @@ class local_inlinetrainer_external extends external_api {
 
         $trainer_settings = [];
 
-        if(property_exists($CFG, 'local_inlinetrainer_consent_message')){
+        if(property_exists($CFG, 'local_inlinetrainer_consent_message') && !empty($CFG->local_inlinetrainer_consent_message)){
             $trainer_settings['consentMessage'] = format_text($CFG->local_inlinetrainer_consent_message, FORMAT_HTML);
         }
         else{
-            $trainer_settings['consentMessage'] = null;
+            $trainer_settings['consentMessage'] = "(no consent message set)";
         }
 
         if(property_exists($CFG, 'local_inlinetrainer_help_text')){
