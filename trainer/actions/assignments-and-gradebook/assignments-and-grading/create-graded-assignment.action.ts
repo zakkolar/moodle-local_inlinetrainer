@@ -13,6 +13,8 @@ import {AddActivityFactory} from "../../../shared_steps/add-activity.factory";
 import {SelectAssignmentActivityFactory} from "../../../shared_steps/select-assignment-activity.factory";
 import {SetSelectStep} from "../../../step/set-select-step";
 import {OpenGradeSectionFactory} from "../../../shared_steps/open-grade-section.factory";
+import {OpenPageSectionStep} from "../../../step/open-page-section-step";
+import {CheckboxStep} from "../../../step/checkbox-step";
 
 
 
@@ -74,14 +76,40 @@ steps['due_date'] = new FillMoodleDateTimeStep({
     optional:true,
 });
 
+steps['open_feedback_types'] = new OpenPageSectionStep({
+    text:'Open the "Feedback types" settings section',
+    sectionId: '#page-mod-assign-mod #id_feedbacktypes',
+    identifier: 'open_feedback_types',
+});
+
+steps['set_feedback_types'] = new CheckboxStep({
+    identifier: 'set_feedback_types',
+    text:'Check the "Feedback comments" box to give students written feedback on their submissions',
+    checkId:'#page-mod-assign-mod #id_assignfeedback_comments_enabled',
+    prerequisites:[steps['open_feedback_types']]
+});
+
 steps['open_grade_section'] = OpenGradeSectionFactory();
 
+
+
 steps['set_grade_type'] = new SetSelectStep({
-    identifier: 'set_grade_category',
+    identifier: 'set_grade_type',
     text:'Set the type to "Point"',
     selectId:'#page-mod-assign-mod #id_grade_modgrade_type',
     selectValue:'point',
     prerequisites:[steps['open_grade_section']]
+});
+
+steps['set_maxiumum_grade'] = new FillTextInputStep({
+    text: 'Set the maximum grade students can receive on this assignment.',
+    target:'#page-mod-assign-mod #id_grade_modgrade_point',
+
+    help:function(){
+        ShowHint('#page-mod-assign-mod #id_grade_modgrade_point');
+    },
+    identifier: 'set_maxiumum_grade',
+    optional:true,
 });
 
 steps['set_grade_category'] = new EventStep({
@@ -112,22 +140,51 @@ steps['save_and_return'] = new EventStep({
     persistent:true
 });
 
-steps['course_page'].addPostrequisite(steps['add_button']);
-steps['editing_on'].addPostrequisite(steps['add_button']);
-steps['click_add_activity'].addPostrequisite(steps['add_button']);
-steps['select_assignment'].addPostrequisite(steps['add_button']);
 
-steps['assignment_description'].addPostrequisite(steps['save_and_return']);
-steps['allow_submissions_from'].addPostrequisite(steps['save_and_return']);
-steps['due_date'].addPostrequisite(steps['save_and_return']);
-steps['open_grade_section'].addPostrequisite(steps['save_and_return']);
-steps['set_grade_category'].addPostrequisite(steps['save_and_return']);
+[
+    steps['course_page'],
+    steps['editing_on'],
+    steps['click_add_activity'],
+    steps['select_assignment'],
+].forEach(function(step){
+    step.addPostrequisite(steps['add_button']);
+});
 
+[
+    steps['assignment_description'],
+    steps['allow_submissions_from'],
+    steps['due_date'],
+    steps['open_feedback_types'],
+    steps['set_feedback_types'],
+    steps['open_grade_section'],
+    steps['set_grade_type'],
+    steps['set_maxiumum_grade'],
+    steps['set_grade_category'],
+].forEach(function(step){
+   step.addPostrequisite(steps['save_and_return']);
+});
 
 
 export const CreateGradedAssignmentAction: Action = new Action({
     name: 'Create graded assignment',
-    steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['open_grade_section'],steps['set_grade_type'], steps['set_grade_category'], steps['save_and_return']],
+    steps:[
+        steps['course_page'],
+        steps['editing_on'],
+        steps['click_add_activity'],
+        steps['select_assignment'],
+        steps['add_button'],
+        steps['assignment_name'],
+        steps['assignment_description'],
+        steps['allow_submissions_from'],
+        steps['due_date'],
+        steps['open_feedback_types'],
+        steps['set_feedback_types'],
+        steps['open_grade_section'],
+        steps['set_grade_type'],
+        steps['set_maxiumum_grade'],
+        steps['set_grade_category'],
+        steps['save_and_return']
+    ],
     identifier: 'create_individual_assignment',
-    description: 'Create a place for students to submit an assignment through your course page.'
+    description: 'Create a place for students to submit an assignment through your course page. Assignment will receive a grade and display in the gradebook.'
 });
