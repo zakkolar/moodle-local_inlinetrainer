@@ -4,14 +4,15 @@ import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
 import {EditingOnFactory} from "../../../shared_steps/editing-on.factory";
 import {EventStep} from "../../../step/event-step";
 import {ShowHint} from "../../../helpers/show-hint";
-import {Checked} from "../../../helpers/checked";
 import {RouteStep} from "../../../step/route-step";
 import {FillTextInputStep} from "../../../step/fill-text-input-step";
 import {FillTextareaStep} from "../../../step/fill-textarea-step";
 import {FillMoodleDateTimeStep} from "../../../step/fill-moodle-date-time-step";
 import {CheckEventHappened} from "../../../helpers/check-event-happened";
 import {AddActivityFactory} from "../../../shared_steps/add-activity.factory";
-import {CheckHasClass} from "../../../helpers/check-has-class";
+import {SelectAssignmentActivityFactory} from "../../../shared_steps/select-assignment-activity.factory";
+import {SetSelectStep} from "../../../step/set-select-step";
+import {OpenGradeSectionFactory} from "../../../shared_steps/open-grade-section.factory";
 
 
 
@@ -22,21 +23,7 @@ steps['editing_on']= EditingOnFactory();
 
 steps['click_add_activity'] = AddActivityFactory();
 
-steps['select_assignment'] = new EventStep({
-    text: 'Select "assignment" as the type of activity',
-    help: function(){
-        ShowHint('label[for=module_assign]');
-    },
-    completeEvent: 'change',
-    completeTarget: 'input[name=jumplink]',
-    checkComplete:function(resolve){
-        resolve(Checked('#module_assign'))
-    },
-    uncompleteEvent: 'change',
-    uncompleteTarget: 'input[name=jumplink]',
-    identifier: 'select_assignment',
-    prerequisites: [steps['click_add_activity']]
-});
+steps['select_assignment'] = SelectAssignmentActivityFactory(steps['click_add_activity']);
 
 steps['add_button'] = new RouteStep({
     text: 'Click "add"',
@@ -87,33 +74,25 @@ steps['due_date'] = new FillMoodleDateTimeStep({
     optional:true,
 });
 
-steps['open_grade_section'] = new EventStep({
-    text:'Open the "Grade" section to set grading settings',
-    optional:true,
-    help:function(){
-        ShowHint('#page-mod-assign-mod #id_modstandardgrade .ftoggler');
-    },
-    checkComplete: function(resolve){
-        setTimeout(function(){
-            resolve(CheckHasClass('#page-mod-assign-mod #id_modstandardgrade', 'collapsed', true))
-        },100);
-    },
-    completeEvent: 'click',
-    completeTarget: '#page-mod-assign-mod #id_modstandardgrade .ftoggler',
-    uncompleteEvent: 'click',
-    uncompleteTarget: '#page-mod-assign-mod #id_modstandardgrade .ftoggler',
-    identifier: 'open_grade_section',
+steps['open_grade_section'] = OpenGradeSectionFactory();
+
+steps['set_grade_type'] = new SetSelectStep({
+    identifier: 'set_grade_category',
+    text:'Set the type to "Point"',
+    selectId:'#page-mod-assign-mod #id_grade_modgrade_type',
+    selectValue:'point',
+    prerequisites:[steps['open_grade_section']]
 });
 
 steps['set_grade_category'] = new EventStep({
    optional: true,
    identifier: 'set_grade_category',
-    text:'In the "Grade" section, set the "Grade Category" to place this assignment into a weighted category in the gradebook.',
+    text:'Set the "Grade Category" to place this assignment into a category in the gradebook.',
    help:function(){
     ShowHint('#id_gradecat');
    } ,
     checkComplete:function(resolve){
-       resolve(CheckEventHappened('#page-mod-assign-mod id_gradecat','change'));
+       resolve(CheckEventHappened('#page-mod-assign-mod #id_gradecat','change'));
     },
     completeEvent:'change',
     completeTarget: '#page-mod-assign-mod #id_gradecat'
@@ -146,9 +125,9 @@ steps['set_grade_category'].addPostrequisite(steps['save_and_return']);
 
 
 
-export const CreateAssignmentAction: Action = new Action({
-    name: 'Create assignment',
-    steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['open_grade_section'], steps['set_grade_category'], steps['save_and_return']],
+export const CreateGradedAssignmentAction: Action = new Action({
+    name: 'Create graded assignment',
+    steps:[steps['course_page'], steps['editing_on'], steps['click_add_activity'], steps['select_assignment'], steps['add_button'], steps['assignment_name'], steps['assignment_description'], steps['allow_submissions_from'], steps['due_date'], steps['open_grade_section'],steps['set_grade_type'], steps['set_grade_category'], steps['save_and_return']],
     identifier: 'create_individual_assignment',
     description: 'Create a place for students to submit an assignment through your course page.'
 });

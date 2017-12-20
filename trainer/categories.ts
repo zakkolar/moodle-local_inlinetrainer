@@ -5,7 +5,7 @@ import {AddEntryToCalendarAction} from "./actions/course-setup/course-calendar/a
 import {SetUpCalendarAction} from "./actions/course-setup/course-calendar/set-up-calendar.action";
 import {Action} from "./action";
 import {AddUsersAction} from "./actions/course-setup/manage-users/add-users.action";
-import {CreateAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/create-assignment.action";
+import {CreateGradedAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/create-graded-assignment.action";
 import {UploadVideoAction} from "./actions/upload-and-organize-course-materials/multi-media/upload-video.action";
 import {CreateForumAction} from "./actions/communication-and-discussion/forums/create-forum.action";
 import {CreateGradeCategoriesAction} from "./actions/assignments-and-gradebook/gradebook-setup/create-grade-categories.action";
@@ -43,7 +43,7 @@ let categories: Category[] = [
                 AssignWeightsToCategoriesAction
             ]),
             new Category('Assignments and grading').addActions([
-                CreateAssignmentAction
+                CreateGradedAssignmentAction
             ]),
             new Category('Monitoring student progress').addActions([
                 ViewClassGradeReportAction
