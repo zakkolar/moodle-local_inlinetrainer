@@ -12,7 +12,7 @@ import {OpenCourseAdministrationFactory} from "../../../shared_steps/open-course
 const steps = {};
 steps['course_page'] = CoursePageFactory();
 
-steps['open_course_administration'] = OpenCourseAdministrationFactory();
+steps['open_course_administration'] = OpenCourseAdministrationFactory(steps['course_page']);
 
 steps['open_users'] = new EventStep({
     text: 'Open the "Users" submenu under "Course Administration" on the left side of the screen',
