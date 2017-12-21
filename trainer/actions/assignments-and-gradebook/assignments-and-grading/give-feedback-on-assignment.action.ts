@@ -63,7 +63,8 @@ steps['click_grade_button'] = new EventStep({
         'You can upload files with comments for the student to download in the box labeled "Feedback files."',
         'When you are done leaving feedback for a student, click the "Save changes" button at the bottom of the screen.',
         'When you are done with all of your students, click the course title in the upper right corner to return to your course page.'
-    ]
+    ],
+    popupVideo: 'https://www.youtube.com/watch?v=vGG-aokfFQ8',
 });
 
 
@@ -86,5 +87,6 @@ export const GiveFeedbackOnAssignmentAction: Action = new Action({
 
     ],
     identifier: 'give_feedback_on_assignment',
-    description: 'Create a place for students to submit an assignment through your course page. Assignment will not display in gradebook, but instructors can provide feedback.'
+    description: 'Create a place for students to submit an assignment through your course page. Assignment will not display in gradebook, but instructors can provide feedback.',
+    video: 'https://www.youtube.com/watch?v=vGG-aokfFQ8',
 });
