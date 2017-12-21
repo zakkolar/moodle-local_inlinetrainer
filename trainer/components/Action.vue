@@ -1,13 +1,17 @@
 <template>
     <div class="action">
         <div class="clearfix">
-            <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
-                <a href="#" class="float-left" @click="toggleOpen">
-                    <chevron :open="open"></chevron>
-                    {{action.name}}
-                </a>
-            </b-popover>
-            <div class='float-right icons'>
+            <div class="float-left" style="width:75%">
+                <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
+                    <a href="#" @click="toggleOpen">
+                    <span class="float-left">
+                        <chevron :open="open"></chevron>
+                    </span>
+                        <span class="action-name float-left">{{action.name}}</span>
+                    </a>
+                </b-popover>
+            </div>
+            <div class='float-right icons' style="width:25%">
                 <a class='star float-right' @click="removeFavorite" href="#" v-if="favorite"><i class="fa fa-star star" aria-hidden="true"></i></a>
                 <a class='star float-right' @click="addFavorite" href="#"  v-if="!favorite"><i class="fa fa-star-o star" aria-hidden="true"></i></a>
                 <a :href='action.help' v-if="action.help" target='_blank' class='pull-right'><span class="sr-only">More information about this action</span><i class='fa fa-info' aria-hidden="true"></i></a>
@@ -217,6 +221,9 @@
     }
     .resetSteps{
         list-style:none;
+    }
+    .action-name{
+        max-width:80%;
     }
 
 </style>

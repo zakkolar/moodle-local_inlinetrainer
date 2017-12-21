@@ -19,6 +19,7 @@
 <style lang="scss">
     .chevron{
         width:13px;
+        margin-right:6px;
     }
 
 </style>
