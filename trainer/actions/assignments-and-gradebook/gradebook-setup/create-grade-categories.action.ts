@@ -16,7 +16,7 @@ steps['course_page'] = CoursePageFactory();
 
 steps['open_course_administration'] = OpenCourseAdministrationFactory(steps['course_page']);
 
-steps['gradebook_setup_button'] = GradebookSetupButtonFactory(steps['course_page']);
+steps['gradebook_setup_button'] = GradebookSetupButtonFactory();
 
 steps['add_category_button'] = new RouteStep({
     text: 'Click "Add category"',

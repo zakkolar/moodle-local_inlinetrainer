@@ -4,7 +4,7 @@ import {StepFactory} from "./step-factory";
 import {CheckEditingModeOn} from "../helpers/check-editing-mode-on";
 import {Step} from "../step/step";
 
-export const GradebookSetupButtonFactory = function(course_page_step:Step){
+export const GradebookSetupButtonFactory = function(){
     let factory = StepFactory(RouteStep, {
         text: 'Click "Gradebook setup"',
         help: function(){
@@ -12,8 +12,7 @@ export const GradebookSetupButtonFactory = function(course_page_step:Step){
             ShowHint('#settingsnav>ul>.type_course.contains_branch>ul>li:nth-of-type(6)');
         },
         route: '/grade/edit/tree/index.php',
-        identifier:'gradebook_setup_button',
-        prerequisites:[course_page_step]
+        identifier:'gradebook_setup_button'
     });
 
     return factory();

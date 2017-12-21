@@ -15,7 +15,7 @@ steps['course_page'] = CoursePageFactory();
 
 steps['open_course_administration'] = OpenCourseAdministrationFactory(steps['course_page']);
 
-steps['gradebook_setup_button'] = GradebookSetupButtonFactory(steps['course_page']);
+steps['gradebook_setup_button'] = GradebookSetupButtonFactory();
 
 steps['check_weight_boxes'] = new EventStep({
     text: 'Check the boxes in the "weights" column for all categories/assignments to which you wish to add weights.',
