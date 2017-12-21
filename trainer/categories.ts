@@ -14,6 +14,7 @@ import {ViewClassGradeReportAction} from "./actions/assignments-and-gradebook/mo
 import {CreateUngradedAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/create-ungraded-assignment.action";
 import {CreateGradeItemAction} from "./actions/assignments-and-gradebook/assignments-and-grading/create-grade-item.action";
 import {GiveFeedbackOnAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/give-feedback-on-assignment.action";
+import {ViewStudentGradeReportAction} from "./actions/assignments-and-gradebook/monitoring-student-progress/view-student-grade-report.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -52,7 +53,8 @@ let categories: Category[] = [
                 GiveFeedbackOnAssignmentAction,
             ]),
             new Category('Monitoring student progress').addActions([
-                ViewClassGradeReportAction
+                ViewClassGradeReportAction,
+                ViewStudentGradeReportAction,
             ])
         ]),
     // new Category('Communication and Discussion', 'Manage forums and message students.')
