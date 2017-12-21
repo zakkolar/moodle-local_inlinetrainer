@@ -11,6 +11,7 @@ import {CreateForumAction} from "./actions/communication-and-discussion/forums/c
 import {CreateGradeCategoriesAction} from "./actions/assignments-and-gradebook/gradebook-setup/create-grade-categories.action";
 import {AssignWeightsToCategoriesAction} from "./actions/assignments-and-gradebook/gradebook-setup/assign-weights-to-categories.action";
 import {ViewClassGradeReportAction} from "./actions/assignments-and-gradebook/monitoring-student-progress/view-class-grade-report.action";
+import {CreateUngradedAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/create-ungraded-assignment.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -43,7 +44,8 @@ let categories: Category[] = [
                 AssignWeightsToCategoriesAction
             ]),
             new Category('Assignments and grading').addActions([
-                CreateGradedAssignmentAction
+                CreateGradedAssignmentAction,
+                CreateUngradedAssignmentAction,
             ]),
             new Category('Monitoring student progress').addActions([
                 ViewClassGradeReportAction

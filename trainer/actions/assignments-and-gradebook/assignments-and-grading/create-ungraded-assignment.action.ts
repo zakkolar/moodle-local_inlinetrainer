@@ -55,25 +55,12 @@ steps['open_grade_section'] = OpenAssignmentGradeSectionFactory();
 
 steps['set_grade_type'] = new SetSelectStep({
     identifier: 'set_grade_type',
-    text:'Set the type to "Point"',
+    text:'Set the type to "None"',
     selectId:'#page-mod-assign-mod #id_grade_modgrade_type',
-    selectValue:'point',
+    selectValue:'none',
     prerequisites:[steps['open_grade_section']]
 });
 
-steps['set_maxiumum_grade'] = new FillTextInputStep({
-    text: 'Set the maximum grade students can receive on this assignment.',
-    target:'#page-mod-assign-mod #id_grade_modgrade_point',
-
-    help:function(){
-        ShowHint('#page-mod-assign-mod #id_grade_modgrade_point');
-    },
-    identifier: 'set_maxiumum_grade',
-    optional:true,
-    prerequisites:[steps['open_grade_section']]
-});
-
-steps['set_grade_category'] = SetAssignmentGradeCategoryFactory(steps['open_grade_section']);
 
 steps['save_and_return'] = AssignmentSaveAndReturnFactory();
 
@@ -95,15 +82,13 @@ steps['save_and_return'] = AssignmentSaveAndReturnFactory();
     steps['set_feedback_types'],
     steps['open_grade_section'],
     steps['set_grade_type'],
-    steps['set_maxiumum_grade'],
-    steps['set_grade_category'],
 ].forEach(function(step){
    step.addPostrequisite(steps['save_and_return']);
 });
 
 
-export const CreateGradedAssignmentAction: Action = new Action({
-    name: 'Create graded assignment',
+export const CreateUngradedAssignmentAction: Action = new Action({
+    name: 'Create ungraded assignment',
     steps:[
         steps['course_page'],
         steps['editing_on'],
@@ -118,10 +103,8 @@ export const CreateGradedAssignmentAction: Action = new Action({
         steps['set_feedback_types'],
         steps['open_grade_section'],
         steps['set_grade_type'],
-        steps['set_maxiumum_grade'],
-        steps['set_grade_category'],
         steps['save_and_return']
     ],
-    identifier: 'create_graded_assignment',
-    description: 'Create a place for students to submit an assignment through your course page. Assignment will receive a grade and display in the gradebook.'
+    identifier: 'create_ungraded_assignment',
+    description: 'Create a place for students to submit an assignment through your course page. Assignment will not display in gradebook, but instructors can provide feedback.'
 });
