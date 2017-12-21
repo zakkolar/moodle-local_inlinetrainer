@@ -21,6 +21,10 @@
                 {{step.text}}
                 <p v-if="step.optional && step===action.currentStep  && !step.complete"> <a href="#" @click="skipStep($event, step)">(skip step)</a></p>
                 <p v-if="step.manualComplete && step===action.currentStep && !step.complete"><a href="#" @click="skipStep($event, step)">(mark step complete)</a></p>
+                <p v-if="step.noTrainer && step===action.currentStep && !step.complete">
+                    The trainer is unable to display on the page for the next step.
+                    <span v-if="step.popupContent || step.popupVideo"><br><a href="#" @click="openStepWindow($event,step)">Click to open a new window with information about the next step.</a></span>
+                </p>
                 <p class="no-strike" v-if="step.completeMessage && step.complete">{{step.completeMessage}}</p>
             </li>
             <li class='resetSteps' v-if="action.steps[0]!==action.currentStep">
@@ -40,12 +44,14 @@
         ACTION_CLOSE,
         ACTION_OPEN,
         FAVORITE_ADD,
-        FAVORITE_REMOVE,
+        FAVORITE_REMOVE, POPUP_TRAINER_CLOSE, POPUP_TRAINER_OPEN,
         STEP_HELP, VIDEO_CLOSE,
         VIDEO_OPEN
     } from "../activity/activity-type";
     import {ActionActivityWatcher} from "../activity/action-activity";
     import {ShowVideo} from "../helpers/show-video";
+    import {LaunchNewTrainer} from "../helpers/launch-new-trainer";
+    import {GUID} from "../helpers/guid";
 
     export default {
         selector:'action',
@@ -131,6 +137,37 @@
                 });
 
             },
+            openStepWindow(e:Event, step:Step){
+                e.preventDefault();
+                const windowID = GUID();
+                const window = LaunchNewTrainer(this.action.name,{
+                    text: step.popupContent,
+                    video: step.popupVideo
+                });
+
+                LogActivity(POPUP_TRAINER_OPEN,{
+                   action: this.action.identifier,
+                   step:step.identifier,
+                   window: windowID
+                });
+
+
+                //watch the window and log when it closes
+                const checkWindow = ()=>{
+                    if(window.closed){
+                        LogActivity(POPUP_TRAINER_CLOSE,{
+                            action: this.action.identifier,
+                            step:step.identifier,
+                            window: windowID
+                        });
+                        clearInterval(timer);
+                    }
+                }
+
+                const timer = setInterval(checkWindow, 100);
+
+
+            }
 
         },
         created(){

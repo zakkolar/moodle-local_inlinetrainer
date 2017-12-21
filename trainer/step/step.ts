@@ -27,6 +27,9 @@ export class Step {
     manualComplete: boolean;
     completeMessage: string;
     private _completeLock;
+    noTrainer: boolean;
+    popupContent;
+    popupVideo;
 
     constructor(params){
         this.text = params.text || null;
@@ -50,6 +53,9 @@ export class Step {
         this._completeLock = locks.createReadWriteLock();
         this.manualComplete = params.manualComplete || false;
         this.completeMessage = params.completeMessage || null;
+        this.noTrainer = params.noTrainer || false;
+        this.popupContent = params.popupContent || null;
+        this.popupVideo = params.popupVideo || null;
 
     }
 

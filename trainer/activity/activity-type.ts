@@ -15,3 +15,5 @@ export const SUBCATEGORY_OPEN = 'subcategory.open';
 export const SUBCATEGORY_CLOSE = 'subcategory.close';
 export const VIDEO_OPEN = 'video.open';
 export const VIDEO_CLOSE = 'video.close';
+export const POPUP_TRAINER_OPEN = 'popuptrainer.open';
+export const POPUP_TRAINER_CLOSE = 'popuptrainer.close';
