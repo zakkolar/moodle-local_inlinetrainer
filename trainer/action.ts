@@ -13,6 +13,7 @@ export class Action {
     previousStepSubscription: string;
     identifier: string;
     description: string;
+    video: string;
 
     constructor(args) {
         this.name = args.name;
@@ -26,6 +27,7 @@ export class Action {
         this.complete = false;
         this.identifier = args.identifier;
         this.description = args.description || null;
+        this.video = args.video || null;
 
     }
 

@@ -25,8 +25,9 @@
     import Chevron from './Chevron.vue';
     import Subcategory from './Subcategory.vue';
     import {Category} from "../category";
-    import {CATEGORY_CLOSE, CATEGORY_OPEN, VIDEO_CLICK} from "../activity/activity-type";
+    import {CATEGORY_CLOSE, CATEGORY_OPEN, VIDEO_CLOSE, VIDEO_OPEN} from "../activity/activity-type";
     import {LogActivity} from "../activity/log-activity";
+    import {ShowVideo} from "../helpers/show-video";
     export default {
         selector:'category',
         data() {
@@ -57,10 +58,16 @@
             },
             showVideo:function(e:Event){
                 e.preventDefault();
-                LogActivity(VIDEO_CLICK,{
+                LogActivity(VIDEO_OPEN,{
                     category: this.category.identifier()
                 });
-                window.open(this.category.video, '_blank');
+                ShowVideo(this.category.video, {
+                    afterClose:()=>{
+                        LogActivity(VIDEO_CLOSE,{
+                            category: this.category.identifier
+                        });
+                    }
+                });
 
             }
         },

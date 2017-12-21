@@ -11,6 +11,7 @@
                 <a class='star float-right' @click="removeFavorite" href="#" v-if="favorite"><i class="fa fa-star star" aria-hidden="true"></i></a>
                 <a class='star float-right' @click="addFavorite" href="#"  v-if="!favorite"><i class="fa fa-star-o star" aria-hidden="true"></i></a>
                 <a :href='action.help' v-if="action.help" target='_blank' class='pull-right'><span class="sr-only">More information about this action</span><i class='fa fa-info' aria-hidden="true"></i></a>
+                <a href="#" @click="showVideo" v-if="action.video" class='pull-right'><span class="sr-only">Watch a video about this action</span><i class="fa fa-film" aria-hidden="true"></i></a>
             </div>
         </div>
         <ol v-if="open">
@@ -35,8 +36,16 @@
     import Chevron from "./Chevron.vue";
     import {mapActions} from 'vuex';
     import {LogActivity} from "../activity/log-activity";
-    import {ACTION_CLOSE, ACTION_OPEN, FAVORITE_ADD, FAVORITE_REMOVE, STEP_HELP} from "../activity/activity-type";
+    import {
+        ACTION_CLOSE,
+        ACTION_OPEN,
+        FAVORITE_ADD,
+        FAVORITE_REMOVE,
+        STEP_HELP, VIDEO_CLOSE,
+        VIDEO_OPEN
+    } from "../activity/activity-type";
     import {ActionActivityWatcher} from "../activity/action-activity";
+    import {ShowVideo} from "../helpers/show-video";
 
     export default {
         selector:'action',
@@ -107,7 +116,21 @@
                 else{
                     ActionActivityWatcher.unwatchAction(this.action, this.tab);
                 }
-            }
+            },
+            showVideo:function(e:Event){
+                e.preventDefault();
+                LogActivity(VIDEO_OPEN,{
+                    action: this.action.identifier
+                });
+                ShowVideo(this.action.video, {
+                    afterClose:()=>{
+                        LogActivity(VIDEO_CLOSE,{
+                            action: this.action.identifier
+                        });
+                    }
+                });
+
+            },
 
         },
         created(){
