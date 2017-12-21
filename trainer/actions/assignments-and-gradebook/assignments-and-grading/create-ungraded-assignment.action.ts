@@ -20,9 +20,10 @@ import {SetAssignmentDescriptionFactory} from "../../../shared_steps/create-assi
 import {SetAssignmentAllowSubmissionsFromFactory} from "../../../shared_steps/create-assignments/set-assignment-allow-submissions-from.factory";
 import {SetAssignmentDueDateFactory} from "../../../shared_steps/create-assignments/set-assignment-due-date.factory";
 import {OpenAssignmentFeedbackTypesFactory} from "../../../shared_steps/create-assignments/open-assignment-feedback-types.factory";
-import {SetAssignmentFeedbackTypesFactory} from "../../../shared_steps/create-assignments/set-assignment-feedback-types.factory";
+import {SetAssignmentFeedbackCommentsFactory} from "../../../shared_steps/create-assignments/set-assignment-feedback-comments.factory";
 import {SetAssignmentGradeCategoryFactory} from "../../../shared_steps/create-assignments/set-assignment-grade-category.factory";
 import {AssignmentSaveAndReturnFactory} from "../../../shared_steps/create-assignments/assignment-save-and-return.factory";
+import {SetAssignmentFeedbackFilesactory} from "../../../shared_steps/create-assignments/set-assignment-feedback-files.factory";
 
 
 
@@ -47,7 +48,9 @@ steps['due_date'] = SetAssignmentDueDateFactory();
 
 steps['open_feedback_types'] = OpenAssignmentFeedbackTypesFactory();
 
-steps['set_feedback_types'] = SetAssignmentFeedbackTypesFactory(steps['open_feedback_types']);
+steps['set_feedback_comments'] = SetAssignmentFeedbackCommentsFactory(steps['open_feedback_types']);
+
+steps['set_feedback_files'] = SetAssignmentFeedbackFilesactory(steps['open_feedback_types']);
 
 steps['open_grade_section'] = OpenAssignmentGradeSectionFactory();
 
@@ -79,7 +82,8 @@ steps['save_and_return'] = AssignmentSaveAndReturnFactory();
     steps['allow_submissions_from'],
     steps['due_date'],
     steps['open_feedback_types'],
-    steps['set_feedback_types'],
+    steps['set_feedback_comments'],
+    steps['set_feedback_files'],
     steps['open_grade_section'],
     steps['set_grade_type'],
 ].forEach(function(step){
@@ -100,7 +104,8 @@ export const CreateUngradedAssignmentAction: Action = new Action({
         steps['allow_submissions_from'],
         steps['due_date'],
         steps['open_feedback_types'],
-        steps['set_feedback_types'],
+        steps['set_feedback_comments'],
+        steps['set_feedback_files'],
         steps['open_grade_section'],
         steps['set_grade_type'],
         steps['save_and_return']
