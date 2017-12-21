@@ -27,8 +27,12 @@ export const SLIDE = function(selector, complete?){
 	}
 
 
-	$('html').animate({scrollTop:targetScroll}, function(){
-		complete();
+
+	$('html, body').animate({scrollTop:targetScroll}, function(){
+		if(this.nodeName == "BODY"){
+            complete();
+		}
+
 	});
 
 }
