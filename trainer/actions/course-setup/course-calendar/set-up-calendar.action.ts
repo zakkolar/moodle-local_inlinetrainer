@@ -2,6 +2,7 @@ import {Action} from '../../../action';
 import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
 import {EditingOnFactory} from "../../../shared_steps/editing-on.factory";
 import {AddMoodleBlockStep} from "../../../step/add-moodle-block-step";
+import {ItemExists} from "../../../helpers/item-exists";
 
 
 const steps = {};
@@ -15,8 +16,7 @@ steps['add_block']= new AddMoodleBlockStep({
   prerequisites:[steps['editing_on']],
   blockType: 'calendar_month',
   checkComplete: function(resolve){
-    const $ = require('jquery');
-    resolve($('.block_calendar_month').length > 0);
+    resolve(ItemExists('.block_calendar_month'));
   }
 });
 
