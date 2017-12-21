@@ -1,4 +1,5 @@
-/* jshint unused:false, devel:true */
+/* jshint unused:false, devel:true, ignore:start */
+/* eslint-disable */
 define(['jquery', 'core/ajax', 'local_inlinetrainer/trainer'],function($, ajax, trainer){
 	return {
 		init:function(user_prefs){

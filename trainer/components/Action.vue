@@ -2,14 +2,14 @@
     <div class="action">
         <div class="clearfix">
             <div class="float-left" style="width:75%">
-                <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
-                    <a href="#" @click="toggleOpen">
+                <a href="#" @click="toggleOpen">
                     <span class="float-left">
                         <chevron :open="open"></chevron>
                     </span>
+                    <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
                         <span class="action-name float-left">{{action.name}}</span>
-                    </a>
-                </b-popover>
+                    </b-popover>
+                </a>
             </div>
             <div class='float-right icons' style="width:25%">
                 <a class='star float-right' @click="removeFavorite" href="#" v-if="favorite"><i class="fa fa-star star" aria-hidden="true"></i></a>
