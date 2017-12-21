@@ -2,7 +2,7 @@
     <div id="zk-inlinetrainer-informed-consent">
         <h1 class="h4">Welcome!</h1>
         <div v-if="consentMessage">
-            <p>This tool is designed to help you learn how to better use LATTE.</p>
+            <p>This tool is designed to help you learn how to better use LATTE. It has been developed by Zak Kolar under the guidance of Professor Rick Alterman as part of Zak's honors thesis. By making this tool available to UWS instructors, we hope to evaluate its effectiveness as a learning tool.</p>
             <p>Before you use the trainer, please read through and accept the following informed consent:</p>
             <hr>
             <div v-html="consentMessage"></div>
