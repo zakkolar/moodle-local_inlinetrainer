@@ -1,15 +1,17 @@
 <template>
     <div class="action">
-        <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
-            <a href="#" @click="toggleOpen">
-                <chevron :open="open"></chevron>
-                {{action.name}}
-            </a>
-        </b-popover>
-        <div class='pull-right icons'>
-            <a class='star pull-right' @click="removeFavorite" href="#" v-if="favorite"><i class="fa fa-star star" aria-hidden="true"></i></a>
-            <a class='star pull-right' @click="addFavorite" href="#"  v-if="!favorite"><i class="fa fa-star-o star" aria-hidden="true"></i></a>
-            <a :href='action.help' v-if="action.help" target='_blank' class='pull-right'><span class="sr-only">More information about this action</span><i class='fa fa-info' aria-hidden="true"></i></a>
+        <div class="clearfix">
+            <b-popover class="zk_inlinetrainer" placement="left" triggers="hover" :content="action.description">
+                <a href="#" class="float-left" @click="toggleOpen">
+                    <chevron :open="open"></chevron>
+                    {{action.name}}
+                </a>
+            </b-popover>
+            <div class='float-right icons'>
+                <a class='star float-right' @click="removeFavorite" href="#" v-if="favorite"><i class="fa fa-star star" aria-hidden="true"></i></a>
+                <a class='star float-right' @click="addFavorite" href="#"  v-if="!favorite"><i class="fa fa-star-o star" aria-hidden="true"></i></a>
+                <a :href='action.help' v-if="action.help" target='_blank' class='pull-right'><span class="sr-only">More information about this action</span><i class='fa fa-info' aria-hidden="true"></i></a>
+            </div>
         </div>
         <ol v-if="open">
             <li v-for =  "step in action.steps" v-bind:class="{'optional':step.optional,'complete':step.complete, 'futureStep':!step.complete && step!==action.currentStep}">
