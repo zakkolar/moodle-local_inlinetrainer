@@ -7,9 +7,6 @@
 
 
                     <i @click="open = !open" class="fa fa-minus minimize pull-right" aria-hidden="true"></i>
-                    <b-popover v-if="helpText" placement="bottom" triggers="click" class="pull-right" :content="helpText">
-                        <i class="fa fa-question-circle trainer-help" aria-hidden="true"></i>
-                    </b-popover>
 
 
                 </div>
@@ -23,6 +20,9 @@
                         </b-tab>
                         <b-tab title="Recents">
                             <recents></recents>
+                        </b-tab>
+                        <b-tab title="Help">
+                            <div style="padding:10px;" v-html="helpText"></div>
                         </b-tab>
                     </b-tabs>
                     <consent v-show="ask"></consent>
