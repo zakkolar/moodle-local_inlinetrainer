@@ -12,7 +12,9 @@ export class SetSelectStep extends EventStep {
                 resolve(CheckValue(params.selectId, params.selectValue));
             },
             completeEvent:'change',
-            completeTarget: params.selectId
+            completeTarget: params.selectId,
+            uncompleteEvent:'change',
+            uncompleteTarget: params.selectId,
         };
 
         const allParams = Object.assign(params, defaultParams);
