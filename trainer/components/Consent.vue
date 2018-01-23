@@ -24,6 +24,7 @@
         </div>
         <div v-if="!consentMessage">
             <i>Loading...</i>
+            <i>We are working on a bug fix for the trainer. Please check back soon!</i>
         </div>
 
 

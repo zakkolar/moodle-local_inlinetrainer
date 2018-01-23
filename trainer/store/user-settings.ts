@@ -1,5 +1,6 @@
 import {TrainerServerQueue} from "../sync/trainer-server-queue";
 import {LogActivity} from "../activity/log-activity";
+import {LocalStorage} from "../helpers/local-storage";
 
 export const UserSettings = {
     namespaced:true,
@@ -33,12 +34,14 @@ export const UserSettings = {
         },
         setOpen(context, open){
             context.commit('setOpen', open);
-            TrainerServerQueue.addJob('local_inlinetrainer_set_open',{
-                open:open
-            });
+            // TrainerServerQueue.addJob('local_inlinetrainer_set_open',{
+            //     open:open
+            // });
+            LocalStorage.set('trainer.user-settings.open', open);
         },
         initSettings(context,settings){
-            context.dispatch('setOpen',settings.open);
+            // context.dispatch('setOpen',settings.open);
+            context.dispatch('setOpen', LocalStorage.get('trainer.user-settings.open'));
             context.dispatch('setResearchConsent',settings.consent);
         }
     },
