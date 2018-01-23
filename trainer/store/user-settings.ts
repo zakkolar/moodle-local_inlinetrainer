@@ -34,15 +34,13 @@ export const UserSettings = {
         },
         setOpen(context, open){
             context.commit('setOpen', open);
-            // TrainerServerQueue.addJob('local_inlinetrainer_set_open',{
-            //     open:open
-            // });
-            LocalStorage.set('trainer.user-settings.open', open);
+            TrainerServerQueue.addJob('local_inlinetrainer_set_open',{
+                open:open
+            });
         },
         initSettings(context,settings){
-            // context.dispatch('setOpen',settings.open);
-            context.dispatch('setOpen', LocalStorage.get('trainer.user-settings.open'));
-            context.dispatch('setResearchConsent',settings.consent);
+            context.commit('setOpen',settings.open);
+            context.commit('setResearchConsent',settings.consent);
         }
     },
     getters:{

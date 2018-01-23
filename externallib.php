@@ -2,19 +2,39 @@
 require_once($CFG->libdir . "/externallib.php");
 class local_inlinetrainer_external extends external_api {
 
-    public static function add_favorite_parameters() {
-        return new external_function_parameters(
-            array('action' => new external_value(PARAM_TEXT, 'The identifier of the action to add to favorites'))
-        );
+
+    public static function course_id_param(){
+        return new external_value(PARAM_TEXT, 'The ID of the course this is called from');
     }
 
-    public static function add_favorite($action) {
+    public static function make_params($existingParams = []){
+        $params = [];
+
+        foreach($existingParams as $key=>$param){
+            $params[$key]=$param;
+        }
+
+        $params['course_id']=self::course_id_param();
+
+        return new external_function_parameters($params);
+    }
+
+
+
+
+    public static function add_favorite_parameters() {
+        return self::make_params(array(
+                'action' => new external_value(PARAM_TEXT, 'The identifier of the action to add to favorites')
+            ));
+    }
+
+    public static function add_favorite($action, $course_id) {
         global $USER, $DB;
         $params = self::validate_parameters(self::add_favorite_parameters(),
-            array('action' => $action));
+            array('action' => $action, 'course_id'=>$course_id));
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
 
         if(!self::favorite_exists($params['action'])){
             $favorite = new stdClass();
@@ -30,23 +50,24 @@ class local_inlinetrainer_external extends external_api {
         return false;
     }
 
-     static function add_favorite_returns() {
+    static function add_favorite_returns() {
         return new external_value(PARAM_BOOL, 'Whether the favorite was added');
     }
 
+
+
+
     public static function set_open_parameters() {
-        return new external_function_parameters(
-            array('open' => new external_value(PARAM_BOOL, 'Whether the trainer is open'))
-        );
+        return self::make_params(array(
+            'open' => new external_value(PARAM_BOOL, 'Whether the trainer is open')
+        ));
     }
 
-    public static function set_open($open) {
+    public static function set_open($open, $course_id) {
         global $USER, $DB;
-        $params = self::validate_parameters(self::set_open_parameters(),
-            array('open' => $open));
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
 
 
 
@@ -63,20 +84,26 @@ class local_inlinetrainer_external extends external_api {
         return false;
     }
 
-     static function set_open_returns() {
+    static function set_open_returns() {
         return new external_value(PARAM_BOOL, 'Whether the open state was saved');
     }
 
+
+
+
     public static function get_trainer_settings_parameters() {
-        return new external_function_parameters(array());
+        return self::make_params();
     }
 
-    public static function get_trainer_settings() {
-        global $USER, $CFG;
+    public static function get_trainer_settings($course_id) {
+        global $CFG, $USER;
 
         $context = get_context_instance(CONTEXT_USER, $USER->id);
+
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
+
+
 
         $trainer_settings = [];
 
@@ -106,19 +133,23 @@ class local_inlinetrainer_external extends external_api {
         );
     }
 
- public static function set_consent_parameters() {
-        return new external_function_parameters(
-            array('consent' => new external_value(PARAM_BOOL, 'Whether the user consents to be part of the study'))
+
+
+
+    public static function set_consent_parameters() {
+        return self::make_params(
+            array(
+                'consent' => new external_value(PARAM_BOOL, 'Whether the user consents to be part of the study'),
+                )
         );
     }
 
-    public static function set_consent($consent) {
+    public static function set_consent($consent, $course_id) {
         global $USER, $DB;
-        $params = self::validate_parameters(self::set_consent_parameters(),
-            array('consent' => $consent));
+
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
 
 
 
@@ -135,27 +166,27 @@ class local_inlinetrainer_external extends external_api {
         return false;
     }
 
-     static function set_consent_returns() {
+    static function set_consent_returns() {
         return new external_value(PARAM_BOOL, 'Whether the value was stored');
     }
 
 
 
     public static function remove_favorite_parameters() {
-        return new external_function_parameters(
+        return self::make_params(
             array('action' => new external_value(PARAM_TEXT, 'The identifier of the action to remove from favorites'))
         );
     }
 
-    public static function remove_favorite($action) {
+    public static function remove_favorite($action, $course_id) {
         global $USER, $DB;
 
         $params = self::validate_parameters(self::remove_favorite_parameters(),
-            array('action' => $action));
+            array('action' => $action, 'course_id'=>$course_id));
 
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
 
         if(self::favorite_exists($params['action'])) {
 
@@ -175,17 +206,19 @@ class local_inlinetrainer_external extends external_api {
     }
 
 
+
+
     public static function get_favorites_parameters() {
-        return new external_function_parameters([]);
+        return self::make_params();
     }
 
-    public static function get_favorites() {
+    public static function get_favorites($course_id) {
         global $USER, $DB;
 
 
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
 
         $favorites = $DB->get_records_menu('local_inlinetrainer_favorite', array(
             'user_id'=>$USER->id
@@ -206,9 +239,9 @@ class local_inlinetrainer_external extends external_api {
         );
     }
 
+
     static function favorite_exists($action){
         global $DB, $USER;
-        self::validate_capability();
         return $DB->record_exists('local_inlinetrainer_favorite', array(
             'action'=>$action,
             'user_id'=>$USER->id,
@@ -218,7 +251,6 @@ class local_inlinetrainer_external extends external_api {
 
     static function preferences_set(){
         global $DB, $USER;
-        self::validate_capability();
         return $DB->record_exists('local_inlinetrainer_users', array(
             'user_id'=>$USER->id,
 
@@ -227,7 +259,6 @@ class local_inlinetrainer_external extends external_api {
 
     static function get_preferences(){
         global $DB, $USER;
-        self::validate_capability();
         return $DB->get_record('local_inlinetrainer_users', array(
             'user_id'=>$USER->id,
 
@@ -235,17 +266,17 @@ class local_inlinetrainer_external extends external_api {
     }
 
     public static function set_recent_actions_parameters() {
-        return new external_function_parameters(array(
+        return self::make_params(array(
             'actions' => new external_multiple_structure(
                 new external_value(PARAM_TEXT, 'identifier of action')
             )));
     }
 
-    public static function set_recent_actions($actions) {
+    public static function set_recent_actions($actions, $course_id) {
         global $USER, $DB;
-        self::validate_capability();
+        self::validate_capability($course_id);
         $params = self::validate_parameters(self::set_recent_actions_parameters(),
-            array('actions' => $actions));
+            array('actions' => $actions, 'course_id'=>$course_id));
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
 
@@ -281,13 +312,15 @@ class local_inlinetrainer_external extends external_api {
         return new external_value(PARAM_BOOL, 'Whether the recent actions were set');
     }
 
+
+
     public static function get_recent_actions_parameters() {
-        return new external_function_parameters([]);
+        return self::make_params();
     }
 
-    public static function get_recent_actions() {
+    public static function get_recent_actions($course_id) {
         global $USER, $DB;
-        self::validate_capability();
+        self::validate_capability($course_id);
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
 
@@ -310,21 +343,21 @@ class local_inlinetrainer_external extends external_api {
         );
     }
 
-    static function validate_capability(){
-        global $COURSE;
-        require_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id));
+    static function validate_capability($course_id){
+        global $USER;
+        require_capability('local/inlinetrainer:usetrainer', context_course::instance($course_id));
     }
 
     public static function log_activity_parameters() {
-        return new external_function_parameters(
+        return self::make_params(
             array(
                 'timestamp' => new external_value(PARAM_INT, 'The unix timestamp when the activity occurred'),
                 'type' => new external_value(PARAM_TEXT, 'The type of activity that occurred'),
                 'data' => new external_value(PARAM_TEXT, 'Other data to be included with the activity')
-        ));
+            ));
     }
 
-    public static function log_activity($timestamp, $type, $data) {
+    public static function log_activity($timestamp, $type, $data, $course_id) {
         global $USER, $DB;
 
 
@@ -335,31 +368,32 @@ class local_inlinetrainer_external extends external_api {
                 'timestamp' => $timestamp,
                 'type' => $type,
                 'data' => $data,
+                'course_id'=>$course_id
             ));
         $context = get_context_instance(CONTEXT_USER, $USER->id);
         self::validate_context($context);
-        self::validate_capability();
+        self::validate_capability($course_id);
         $consent = $DB->get_field('local_inlinetrainer_users', 'consent', array(
             'user_id'=>$USER->id
         ));
 
 
 
-            if($consent==1){
-                $activity = new stdClass();
+        if($consent==1){
+            $activity = new stdClass();
 
-                $activity->timestamp = $params['timestamp'];
-                $activity->type = $params['type'];
-                $activity->data = $params['data'];
+            $activity->timestamp = $params['timestamp'];
+            $activity->type = $params['type'];
+            $activity->data = $params['data'];
 
-                $activity->user_id = $USER->id;
+            $activity->user_id = $USER->id;
 
-                $lastinsertid = $DB->insert_record('local_inlinetrainer_activity', $activity);
+            $lastinsertid = $DB->insert_record('local_inlinetrainer_activity', $activity);
 
-                return $lastinsertid>0;
-            }
+            return $lastinsertid>0;
+        }
 
-            return false;
+        return false;
 
 
     }

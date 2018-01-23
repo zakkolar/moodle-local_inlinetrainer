@@ -7,7 +7,7 @@ import {TrainerServerQueue} from "./sync/trainer-server-queue";
 import {RESEARCH_DATA_COLLECTION} from "./settings";
 
 
-export const init = function(ajax, userPrefs){
+export const init = function(ajax, courseID, userPrefs){
 
 
 
@@ -30,6 +30,7 @@ export const init = function(ajax, userPrefs){
                 }
                 this.$store.dispatch('trainerSettings/load');
                 TrainerServerQueue.setAjax(ajax);
+                TrainerServerQueue.setCourseId(courseID);
                 this.$store.dispatch('favorites/sync');
                 this.$store.dispatch('recents/sync');
             }

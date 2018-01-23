@@ -31,7 +31,7 @@ function local_inlinetrainer_add_trainer_to_page(){
     $load = !defined('zk-inline-trainer-added');
 
     if(has_capability('local/inlinetrainer:usetrainer', context_course::instance($COURSE->id), null, false) && core_useragent::get_user_device_type()=='default' && $load) {
-        $PAGE->requires->js_call_amd('local_inlinetrainer/load', 'init', [$user_prefs]);
+        $PAGE->requires->js_call_amd('local_inlinetrainer/load', 'init', [$COURSE->id, $user_prefs]);
         define('zk-inline-trainer-added', true);
     }
 }
