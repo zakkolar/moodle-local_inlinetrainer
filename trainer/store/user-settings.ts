@@ -36,6 +36,10 @@ export const UserSettings = {
             TrainerServerQueue.addJob('local_inlinetrainer_set_open',{
                 open:open
             });
+        },
+        initSettings(context,settings){
+            context.dispatch('setOpen',settings.open);
+            context.dispatch('setResearchConsent',settings.consent);
         }
     },
     getters:{
