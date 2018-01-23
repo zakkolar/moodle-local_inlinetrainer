@@ -4,7 +4,8 @@
         <div v-if="consentMessage">
             <p>This tool is designed to help you learn how to better use LATTE. It has been developed by Zak Kolar under the guidance of Professor Rick Alterman as part of Zak's honors thesis. By making this tool available to UWS instructors, we hope to evaluate its effectiveness as a learning tool.</p>
             <p><a href="#" @click="showIntro">Click here to see a 5 minute overview video of the Inline Trainer.</a></p>
-            <p>Before you use the trainer, please read through and accept the following informed consent:</p>
+            <p>Before you use the trainer, please read through the following informed consent and indicate at the bottom whether you agree to participate in the study.</p>
+            <p><i>Once you accept or decline the informed consent at the bottom of the page, you can minimize the trainer and your preference will be saved between pages.</i></p>
             <hr>
             <div v-html="consentMessage"></div>
             <hr>
