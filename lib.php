@@ -39,6 +39,8 @@ function local_inlinetrainer_add_trainer_to_page(){
 function local_inline_trainer_add_data_links($navigation){
     global $trainer_menu_node,$CFG;
 
+    include('version.php');
+
     if(has_capability('local/inlinetrainer:researchtrainer', context_system::instance(), null, false)){
         $trainer_menu_node = $navigation->add(get_string('research_menu','local_inlinetrainer'));
 
@@ -55,6 +57,7 @@ function local_inline_trainer_add_data_links($navigation){
 
         $download_new_node = $trainer_menu_node->add(get_string('download_new','local_inlinetrainer'), $download_new_url);
         $download_all_node = $trainer_menu_node->add(get_string('download_all','local_inlinetrainer'), $download_all_url);
+        $test_node = $trainer_menu_node->add("Trainer version: $plugin->version");
 
     }
 }

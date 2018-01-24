@@ -166,7 +166,7 @@
     }
 
     .popover{
-        z-index:10002;
+        z-index:13003;
     }
 
     .local_inlinetrainer_overlay {
