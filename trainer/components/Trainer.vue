@@ -128,7 +128,7 @@
     @import "../bootstrap-custom";
 
     #zk_inlinetrainer{
-        z-index:10001;
+        z-index:13002;
         width:320px;
         position:fixed;
         right:5%;
