@@ -53,8 +53,6 @@ export class SyncQueue {
                     args:job.args
                 }]);
 
-                console.log('queue',job.action, job.args);
-
                 promise[0].always(function(){
                     queue.running.unlock();
                     queue.run();
