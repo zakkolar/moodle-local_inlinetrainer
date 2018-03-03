@@ -21,7 +21,7 @@ steps['open_course_administration'] = OpenCourseAdministrationFactory(steps['cou
 steps['gradebook_setup_button'] = GradebookSetupButtonFactory();
 
 steps['set_course_settings'] = new RouteStep({
-    text: 'Click "Edit," then "Edit Settings" next to the name of your course.',
+    text: 'At the top of the category table, find the name of your course. On the right of that row, click "Edit" and then "Edit settings"',
     help: function(){
         ShowHint('#page-grade-edit-tree-index .coursecategory.category td:nth-of-type(3)');
     },
@@ -31,7 +31,7 @@ steps['set_course_settings'] = new RouteStep({
 
 steps['aggregation_natural'] = new SetSelectStep({
     identifier: 'aggregation_natural',
-    text:'Set the aggregatoin to "Natural"',
+    text:'Set the aggregation to "Natural"',
     selectId:'#page-grade-edit-tree-category #id_aggregation',
     selectValue:'13',
     prerequisites:[steps['set_course_settings']]
