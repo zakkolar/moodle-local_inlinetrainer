@@ -11,20 +11,14 @@ import {CoursePageFactory} from "../../../shared_steps/course-page.factory";
 import {FillTextInputStep} from "../../../step/fill-text-input-step";
 import {FillTextareaStep} from "../../../step/fill-textarea-step";
 import {FillMoodleDateTimeStep} from "../../../step/fill-moodle-date-time-step";
+import {CalendarBlockFactory} from "../../../shared_steps/calendar-block.factory";
 
 
 const steps = {};
 steps['course_page'] = CoursePageFactory();
 
-steps['click_calendar'] = new RouteStep({
-  text: 'Scroll to the "Calendar" block on the left side of the screen and click the name of the current month',
-  help: function() {
-    ShowHint('.block_calendar_month');
-  },
-  route: '/calendar/view.php',
-    routeExtras: {'parameters':[['view','month']]},
-  identifier: 'click_calendar'
-});
+steps['click_calendar'] = CalendarBlockFactory();
+
 steps['new_event'] = new RouteStep({
   text: 'Click "New Event"',
   help: function(){

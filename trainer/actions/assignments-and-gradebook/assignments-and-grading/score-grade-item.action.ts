@@ -43,7 +43,7 @@ steps['select_grade_item'] = new RouteStep({
 steps['set_grades'] = new FillTextInputStep({
     text:"Set the grade you wish each student to receive in this category",
     target:'#page-grade-report-singleview-index .generaltable tr td:nth-of-type(3) input[type=text]',
-
+    identifier:'set_grades',
     help:function(){
         ShowHint('#page-grade-report-singleview-index .generaltable tr td:nth-of-type(3) input[type=text]');
     },
@@ -59,7 +59,8 @@ steps['save_button'] = new EventStep({
     completeEvent: 'submit',
     completeTarget: '#page-grade-report-singleview-index .reporttable form',
     persistent:true,
-    text:'Click "Save" at the top of the page'
+    text:'Click "Save" at the top of the page',
+    identifier:'save_button',
 });
 
 [

@@ -16,6 +16,7 @@ import {CreateGradeItemAction} from "./actions/assignments-and-gradebook/assignm
 import {GiveFeedbackOnAssignmentAction} from "./actions/assignments-and-gradebook/assignments-and-grading/give-feedback-on-assignment.action";
 import {ViewStudentGradeReportAction} from "./actions/assignments-and-gradebook/monitoring-student-progress/view-student-grade-report.action";
 import {ScoreGradeItemAction} from "./actions/assignments-and-gradebook/assignments-and-grading/score-grade-item.action";
+import {EditCalendarEntry} from "./actions/course-setup/course-calendar/edit-calendar-entry.action";
 
 let categories: Category[] = [
     new Category('Course Setup', 'The tasks you need to set up your course and manage its settings, calendar, and students/TAs.')
@@ -25,7 +26,8 @@ let categories: Category[] = [
             // ]),
             new Category('Course Calendar').addActions([
                 SetUpCalendarAction,
-                AddEntryToCalendarAction
+                AddEntryToCalendarAction,
+                EditCalendarEntry
             ]),
             new Category('Manage Users').addActions([
                 AddUsersAction,
