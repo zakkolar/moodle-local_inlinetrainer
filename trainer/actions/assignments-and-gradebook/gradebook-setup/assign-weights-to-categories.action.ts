@@ -10,18 +10,29 @@ import {GradebookSetupButtonFactory} from "../../../shared_steps/gradebook-setup
 import {RouteStep} from "../../../step/route-step";
 import {SetSelectStep} from "../../../step/set-select-step";
 import {ItemExists} from "../../../helpers/item-exists";
+import {Step} from "../../../step/step";
 
 
 
 const steps = {};
+
+steps['complete_create_grade_categeories'] = new Step({
+   identifier: 'complete_create_grade_categories',
+   persistent: true,
+   text: 'Create all of your grade categories before assigning weights',
+   manualComplete: true
+});
+
 steps['course_page'] = CoursePageFactory();
+steps['course_page'].addPrerequisite(steps['complete_create_grade_categeories']);
 
 steps['open_course_administration'] = OpenCourseAdministrationFactory(steps['course_page']);
 
 steps['gradebook_setup_button'] = GradebookSetupButtonFactory();
+steps['gradebook_setup_button'].addPrerequisite(steps['complete_create_grade_categeories']);
 
 steps['set_course_settings'] = new RouteStep({
-    text: 'At the top of the category table, find the name of your course. On the right of that row, click "Edit" and then "Edit settings"',
+    text: 'At the top of the category table, find the name of your course. On the right of that row, click "Edit" and then "Edit settings" to edit the course-level settings',
     help: function(){
         ShowHint('#page-grade-edit-tree-index .coursecategory.category td:nth-of-type(3)');
     },
@@ -123,6 +134,7 @@ steps['save_changes'] = new EventStep({
 export const AssignWeightsToCategoriesAction: Action = new Action({
     name: 'Assign weights',
     steps:[
+        steps['complete_create_grade_categeories'],
         steps['course_page'],
         steps['open_course_administration'],
         steps['gradebook_setup_button'],

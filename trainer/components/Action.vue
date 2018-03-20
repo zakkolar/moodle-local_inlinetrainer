@@ -19,12 +19,15 @@
             </div>
         </div>
         <ol v-if="open">
+            <span class='resetSteps' v-if="action.steps[0]!==action.currentStep && action.complete">
+                <a href @click="resetSteps" class='text-danger'>(Click to start over)</a>
+            </span>
             <li v-for =  "step in action.steps" v-bind:class="{'optional':step.optional,'complete':step.complete, 'futureStep':!step.complete && step!==action.currentStep}">
                 <span v-if="step.optional">Optional: </span>
                 <a v-if="step.help!=null && step===action.currentStep && !step.complete" href='#' title="Show me how to complete this step" @click="runHelp($event,step)"><i class="fa fa-window-restore" aria-hidden="true"></i></a>
                 {{step.text}}
                 <p v-if="step.optional && step===action.currentStep  && !step.complete"> <a href="#" @click="skipStep($event, step)">(skip step)</a></p>
-                <p v-if="step.manualComplete && step===action.currentStep && !step.complete"><a href="#" @click="skipStep($event, step)">(mark step complete)</a></p>
+                <p v-if="step.manualComplete && step===action.currentStep && !step.complete"><a href="#" @click="skipStep($event, step)">(click to mark step complete)</a></p>
                 <p v-if="step.noTrainer && step===action.currentStep && !step.complete">
                     The trainer is unable to display on the page for the next step.
                     <span v-if="step.popupContent || step.popupVideo"><br><a href="#" @click="openStepWindow($event,step)">Click to open a new window with information about the next step.</a></span>
@@ -32,7 +35,7 @@
                 <p class="no-strike" v-if="step.completeMessage && step.complete">{{step.completeMessage}}</p>
             </li>
             <li class='resetSteps' v-if="action.steps[0]!==action.currentStep">
-                <a href @click="resetSteps" class='text-danger'>Start over</a>
+                <a href @click="resetSteps" class='text-danger'>(Click to start over)</a>
             </li>
         </ol>
     </div>
