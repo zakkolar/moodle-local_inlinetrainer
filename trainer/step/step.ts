@@ -75,6 +75,10 @@ export class Step {
         this._postrequisites.push(step);
     }
 
+    addPrerequisite(step: Step){
+        this._prerequisites.push(step);
+    }
+
     async postrequisitesComplete(){
         let step = this;
         for(const postrequisite of step._postrequisites){
