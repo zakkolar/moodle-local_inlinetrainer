@@ -16,7 +16,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "bootstrap-vue": "^0.18.0",
     "jquery": "^3.5.0",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.0",
     "locks": "^0.2.2",
     "lscache": "^1.1.0",
     "vue": "^2.5.0",
