@@ -14,7 +14,7 @@
     "@types/jquery": "^3.2.10",
     "axios": "^0.21.1",
     "bootstrap": "4.0.0-alpha.6",
-    "bootstrap-vue": "^0.18.0",
+    "bootstrap-vue": "^2.0.0",
     "jquery": "^3.5.0",
     "jquery-ui": "^1.13.0",
     "locks": "^0.2.2",
